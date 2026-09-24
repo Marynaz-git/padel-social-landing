@@ -1,0 +1,89 @@
+---
+import '@fontsource-variable/bodoni-moda/opsz.css';
+import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+import '@fontsource-variable/inter';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { event, seo, prices, links } from '../content/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const { title = seo.title, description = seo.description, noindex = false } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(seo.ogImage, Astro.site).href;
+
+// JSON-LD Event
+const registerUrl = new URL(links.register, canonical).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${event.name} — ${event.edition}`,
+  description: seo.description,
+  startDate: event.schedule[0].startISO,
+  endDate: event.schedule[1].endISO,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: event.venue,
+    address: { '@type': 'PostalAddress', addressLocality: event.city, addressCountry: 'PT' },
+  },
+  organizer: { '@type': 'Organization', name: event.brand, url: Astro.site?.href },
+  image: [ogImage],
+  offers: [
+    { name: 'Tournament + After Padel', price: prices.tournamentAfter },
+    { name: 'After Padel only', price: prices.afterOnly },
+  ].map((o) => ({
+    '@type': 'Offer',
+    name: o.name,
+    price: o.price,
+    priceCurrency: prices.currency,
+    availability: 'https://schema.org/InStock',
+    url: registerUrl,
+  })),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#FAF8F4" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={event.brand} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={seo.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot name="header" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

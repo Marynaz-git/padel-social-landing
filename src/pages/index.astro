@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Marquee from '../components/Marquee.astro';
+import Hero from '../sections/Hero.astro';
+import Manifesto from '../sections/Manifesto.astro';
+import Experience from '../sections/Experience.astro';
+import WhyCome from '../sections/WhyCome.astro';
+import Atmosphere from '../sections/Atmosphere.astro';
+import WhoFor from '../sections/WhoFor.astro';
+import Location from '../sections/Location.astro';
+import MainCta from '../sections/MainCta.astro';
+import Faq from '../sections/Faq.astro';
+import FinalCta from '../sections/FinalCta.astro';
+---
+
+<Base>
+  <Nav slot="header" />
+  <Hero />          <!-- 01 LIGHT -->
+  <Marquee />
+  <Manifesto />     <!-- 02 LIGHT -->
+  <Experience />    <!-- 03 DARK -->
+  <WhyCome />       <!-- 04 LIGHT -->
+  <Atmosphere />    <!-- 05 DARK / PHOTO -->
+  <WhoFor />        <!-- 06 LIGHT -->
+  <Location />      <!-- 07 LIGHT / PHOTO -->
+  <MainCta />       <!-- 08 ORANGE–GOLD + registration -->
+  <Faq />           <!-- 09 LIGHT -->
+  <FinalCta />      <!-- 10 FULL-BLEED PHOTO / DARK -->
+  <Footer slot="footer" />  <!-- 11 -->
+</Base>

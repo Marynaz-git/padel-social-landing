@@ -1,0 +1,70 @@
+---
+import { whyCome } from '../content/site';
+import Photo from '../components/Photo.astro';
+---
+
+<section class="why section" id="why" aria-labelledby="why-title">
+  <div class="container">
+    <h2 id="why-title" class="label label--accent why__label">{whyCome.label}</h2>
+
+    <ol class="why__cols">
+      {whyCome.columns.map((c, i) => (
+        <li class:list={['why__col', `why__col--${i + 1}`]}>
+          <div class="why__photo">
+            <Photo slot={c.photo} sizes="(min-width: 900px) 28vw, 100vw" />
+          </div>
+          <div class="why__text">
+            <span class="num why__num" aria-hidden="true">{c.num}</span>
+            <h3 class="caps why__title">{c.title}</h3>
+            <p class="serif why__quote">
+              {c.text.map((t) => <span>{t} </span>)}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .why { background: var(--ivory); }
+  .why__label { margin-bottom: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
+
+  .why__cols { display: grid; gap: var(--s-8); }
+  .why__col { display: grid; gap: var(--s-5); }
+  .why__photo { max-width: min(26rem, 82%); }
+  .why__col--2 .why__photo { margin-left: auto; }
+
+  .why__text {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    row-gap: 0.75rem;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--ivory-line);
+  }
+  .why__num { grid-row: span 2; font-size: 2.6rem; color: var(--amber-ink); }
+  .why__title { font-size: 0.95rem; letter-spacing: 0.16em; padding-top: 0.5rem; }
+  .why__quote {
+    grid-column: 2;
+    font-size: clamp(1.45rem, 1.1rem + 1.1vw, 2.1rem);
+    line-height: 1.12;
+    font-weight: 450;
+  }
+
+  @media (min-width: 900px) {
+    .why__cols {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: var(--col-gap);
+      align-items: start;
+    }
+    .why__photo { max-width: none; }
+    .why__col--2 .why__photo { margin-left: 0; }
+    /* asymmetric step: middle column drops, third sits highest */
+    .why__col--1 { padding-top: 4rem; }
+    .why__col--2 { padding-top: 10rem; }
+    .why__col--3 { padding-top: 0; }
+    .why__col--2 .why__photo { width: 82%; }
+    .why__col--3 .why__photo { width: 90%; margin-left: auto; }
+  }
+</style>

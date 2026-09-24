@@ -1,0 +1,63 @@
+---
+import { hero } from '../content/site';
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const ring = hero.badge.ring;
+---
+
+<div class:list={['badge', cls]} aria-hidden="true">
+  <!-- rotating text ring -->
+  <svg class="badge__ring" viewBox="0 0 200 200" focusable="false">
+    <defs>
+      <path id="badge-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+    </defs>
+    <g class="badge__spin">
+      <text>
+        <textPath href="#badge-circle" textLength="500" lengthAdjust="spacing">{ring}</textPath>
+      </text>
+    </g>
+  </svg>
+  <!-- static padel ball: circle + classic curved seams -->
+  <svg class="badge__ball" viewBox="0 0 200 200" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="100" cy="100" r="36" fill="rgb(238 138 30 / 0.06)" />
+      <g transform="rotate(-28 100 100)">
+        <path d="M71.8 80.1 Q 96 100 71.8 119.9" />
+        <path d="M128.2 80.1 Q 104 100 128.2 119.9" />
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .badge {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    color: var(--amber);
+  }
+  .badge__ring,
+  .badge__ball {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  /* rotate the text inside the SVG, so the element's box never grows */
+  .badge__spin {
+    transform-origin: 100px 100px;
+    animation: badge-spin var(--dur-badge) linear infinite;
+  }
+  .badge__ring text {
+    fill: currentColor;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  @keyframes badge-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .badge__spin { animation: none; }
+  }
+</style>

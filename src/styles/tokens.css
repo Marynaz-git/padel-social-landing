@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Design tokens — Padel Social Vol. 2
+   One file. Everything visual reads from here.
+   ========================================================================== */
+
+:root {
+  /* ---- Colour ------------------------------------------------------------ */
+  --ivory: #faf8f4;          /* primary background — warm off-white */
+  --ivory-rgb: 250 248 244;  /* same colour, for alpha fades: rgb(var(--ivory-rgb) / .5) */
+  --ivory-deep: #f1ece4;     /* image-slot fill / subtle fills on light */
+  --ivory-line: #e5ded3;     /* thin rules on light */
+  --field-line: #bdb3a5;     /* form input underline */
+  --field-box: #d6cdc0;      /* form option border */
+  --field-check: #a0968a;    /* checkbox border */
+  --ink: #16120f;            /* primary text */
+  --ink-soft: #4a4038;       /* secondary text on light */
+  --charcoal: #1b1613;       /* dark sections */
+  --brown: #2b1b12;          /* deep brown strip / footer */
+  --cream: #f3ead9;          /* text on dark */
+  --cream-soft: rgb(243 234 217 / 0.68);
+  --line-dark: rgb(243 234 217 / 0.16);
+
+  --amber: #ee8a1e;          /* accent — mango / amber */
+  --gold: #f7b53a;           /* accent — golden yellow */
+  --amber-ink: #a8560a;      /* accent for SMALL text on ivory (AA ≥ 4.5:1) */
+
+  /* Gradient: ONLY for primary CTAs, italic accent words, Main CTA section */
+  --grad: linear-gradient(100deg, var(--amber) 0%, #f39a28 45%, var(--gold) 100%);
+  --grad-section: linear-gradient(115deg, #ec8a22 0%, #f2a232 50%, #f6bb4a 100%);
+
+  /* ---- Type -------------------------------------------------------------- */
+  --font-serif: 'Bodoni Moda Variable', 'Bodoni 72', 'Didot', 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* fluid scale — mobile (375) → desktop (1440) */
+  --fs-display: clamp(5.1rem, 2.9rem + 8vw, 8.5rem);        /* PLAY PADEL SOCIAL */
+  --opsz-display: 'opsz' 28;   /* keeps hairlines visible at huge sizes (96 = too fragile) */
+  --fs-mega: clamp(4rem, 1.6rem + 8.6vw, 9.5rem);          /* PLAY. MEET. STAY. */
+  --fs-h2: clamp(2.6rem, 1.3rem + 4.8vw, 6rem);           /* section titles */
+  --fs-h3: clamp(1.9rem, 1.3rem + 2.4vw, 3.4rem);
+  --fs-h4: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem);
+  --fs-lead: clamp(1.1rem, 1rem + 0.45vw, 1.45rem);
+  --fs-body: clamp(0.98rem, 0.94rem + 0.18vw, 1.1rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.72rem;
+
+  --lh-tight: 0.88;
+  --lh-snug: 1.15;
+  --lh-body: 1.55;
+
+  --track-label: 0.32em;
+  --track-caps: 0.14em;
+
+  /* ---- Space ------------------------------------------------------------- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 9rem;
+
+  --section-y: clamp(5rem, 3rem + 8vw, 10rem);
+
+  /* ---- Grid -------------------------------------------------------------- */
+  --container: 1440px;
+  --gutter: clamp(1rem, 0.4rem + 2.8vw, 3rem);   /* side padding: 16px @375 */
+  --col-gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+
+  /* ---- Shape ------------------------------------------------------------- */
+  --radius-0: 0;
+  --radius-pill: 999px;   /* buttons ONLY */
+  --rule: 1px;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 300ms;
+  --dur-med: 700ms;
+  --dur-slow: 1200ms;
+  --dur-badge: 40s;
+  --dur-marquee: 38s;
+
+  /* ---- Layers ------------------------------------------------------------ */
+  --z-nav: 50;
+  --z-menu: 60;
+}

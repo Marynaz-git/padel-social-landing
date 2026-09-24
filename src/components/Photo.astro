@@ -1,0 +1,173 @@
+---
+/**
+ * <Photo slot="heroSunsetSocial" />
+ * Renders the real image if src/assets/photos/<file> exists,
+ * otherwise a warm placeholder at the same aspect ratio.
+ *
+ * fill  → absolutely covers its positioned parent (hero, final CTA)
+ * Crop: slot.position / slot.zoom, overridable per breakpoint from a
+ *       parent via the CSS custom properties --pos and --zoom.
+ */
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+import { photos, type PhotoKey } from '../content/photos';
+
+interface Props {
+  slot: PhotoKey;
+  sizes?: string;
+  fill?: boolean;
+  eager?: boolean;
+  /** fetch priority when eager (default high) */
+  priority?: 'high' | 'low' | 'auto';
+  class?: string;
+  ratio?: string; // override
+  decorative?: boolean;
+}
+
+const { slot, sizes = '100vw', fill = false, eager = false, priority = 'high', class: cls = '', ratio, decorative = false } = Astro.props;
+const meta = photos[slot];
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/photos/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const match = Object.entries(files).find(([p]) => p.endsWith('/' + meta.file));
+const img = match?.[1].default;
+const r = ratio ?? meta.ratio;
+const alt = decorative ? '' : meta.alt;
+const slotMeta: { position?: string; zoom?: number } = meta;
+const zoom = slotMeta.zoom ?? 1;
+// a zoomed crop needs proportionally more pixels
+const effSizes = zoom > 1 ? sizes.replace(/(\d+(?:\.\d+)?)vw/g, (_, n) => `${Math.round(Number(n) * zoom)}vw`) : sizes;
+const widths = img ? [...new Set([480, 800, 1200, 1600, 2200].filter((w) => w < img.width).concat(img.width))] : [];
+const style = [
+  fill ? '' : `--ratio:${r}`,
+  slotMeta.position ? `--pos-default:${slotMeta.position}` : '',
+  zoom !== 1 ? `--zoom-default:${zoom}` : '',
+].filter(Boolean).join(';') || undefined;
+---
+
+<figure
+  class:list={['photo', `tone-${meta.tone}`, { 'photo--fill': fill, 'is-placeholder': !img }, cls]}
+  style={style}
+  data-slot={slot}
+>
+  {
+    img ? (
+      <Picture
+        src={img}
+        alt={alt}
+        formats={['avif', 'webp']}
+        widths={widths}
+        sizes={effSizes}
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? priority : 'auto'}
+        decoding="async"
+      />
+    ) : (
+      <div class="ph" role={alt ? 'img' : undefined} aria-label={alt || undefined} aria-hidden={alt ? undefined : 'true'}>
+        <span class="ph__cap" aria-hidden="true">
+          <span class="ph__tag">Photo</span>
+          {meta.caption}
+        </span>
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .photo {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    aspect-ratio: var(--ratio, 4/5);
+    background: var(--ivory-deep);
+  }
+  .photo--fill {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+  }
+  .photo :global(picture),
+  .photo :global(img),
+  .ph {
+    width: 100%;
+    height: 100%;
+  }
+  .photo :global(img) {
+    object-fit: cover;
+    object-position: var(--pos, var(--pos-default, 50% 50%));
+    transform: scale(var(--zoom, var(--zoom-default, 1)));
+    transform-origin: var(--pos, var(--pos-default, 50% 50%));
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+
+  /* ---- Placeholder: warm, atmospheric, clearly a stand-in ---- */
+  .ph {
+    position: relative;
+    isolation: isolate;
+  }
+  .ph::before,
+  .ph::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  /* bokeh / court lights */
+  .ph::after {
+    background:
+      radial-gradient(circle at 18% 38%, rgb(255 214 150 / 0.55) 0 0.35%, transparent 0.9%),
+      radial-gradient(circle at 34% 30%, rgb(255 214 150 / 0.45) 0 0.3%, transparent 0.8%),
+      radial-gradient(circle at 62% 26%, rgb(255 214 150 / 0.5) 0 0.35%, transparent 0.9%),
+      radial-gradient(circle at 81% 34%, rgb(255 214 150 / 0.4) 0 0.3%, transparent 0.8%),
+      repeating-linear-gradient(90deg, transparent 0 16%, rgb(20 12 8 / 0.045) 16% 16.2%);
+    mix-blend-mode: normal;
+    opacity: 0.9;
+  }
+  .tone-sunset .ph::before {
+    background:
+      radial-gradient(60% 45% at 72% 22%, rgb(255 228 170 / 0.95), transparent 70%),
+      linear-gradient(180deg, #f6cf8c 0%, #efa24f 32%, #b8652c 58%, #5a2e17 82%, #2b1b12 100%);
+  }
+  .tone-dusk .ph::before {
+    background:
+      radial-gradient(55% 40% at 30% 30%, rgb(247 181 58 / 0.55), transparent 70%),
+      linear-gradient(170deg, #c9793a 0%, #7a3f1f 38%, #3a2216 70%, #1b1613 100%);
+  }
+  .tone-night .ph::before {
+    background:
+      radial-gradient(45% 35% at 70% 35%, rgb(238 138 30 / 0.45), transparent 70%),
+      linear-gradient(180deg, #4a2c1b 0%, #2b1b12 45%, #1b1613 100%);
+  }
+  .tone-cream .ph::before {
+    background:
+      radial-gradient(60% 50% at 70% 30%, rgb(247 181 58 / 0.35), transparent 70%),
+      linear-gradient(160deg, #efe4d2 0%, #e4d3b9 55%, #d4b994 100%);
+  }
+  .tone-cream .ph::after { opacity: 0.25; }
+
+  .ph__cap {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.8rem;
+    right: 0.9rem;
+    display: flex;
+    gap: 0.6em;
+    align-items: baseline;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+    color: rgb(255 244 228 / 0.88);
+  }
+  .tone-cream .ph__cap { color: rgb(22 18 15 / 0.62); }
+  .ph__tag {
+    flex: none;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    opacity: 0.75;
+  }
+</style>

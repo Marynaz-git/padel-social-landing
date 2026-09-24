@@ -1,0 +1,90 @@
+---
+import { nav, links } from '../content/site';
+import Icon from './Icon.astro';
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+---
+
+<header class="nav" data-nav>
+  <div class="nav__inner container">
+    <a class="nav__brand" href="#top" aria-label={`${nav.wordmark} — home`}>
+      <Image src={logo} alt="" width={32} height={32} densities={[1, 2]} loading="eager" class="nav__logo" />
+      <span class="nav__word serif">{nav.wordmark}</span>
+    </a>
+
+    <div class="nav__end">
+      <span class="nav__city">{nav.cityLabel}</span>
+      <a class="btn btn--sm nav__cta" href={links.register} data-join>
+        <span>{nav.cta.lead}<span class="nav__cta-rest">{nav.cta.rest}</span></span>
+        <Icon name="arrow" size={18} class="arrow" />
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // solid background once the hero is scrolled past the header height
+  const header = document.querySelector<HTMLElement>('[data-nav]')!;
+  const onScroll = () => header.classList.toggle('is-scrolled', scrollY > 24);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-nav);
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+    border-bottom: 1px solid transparent;
+  }
+  .nav.is-scrolled {
+    background: var(--ivory);
+    border-bottom-color: var(--ivory-line);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    height: clamp(4.25rem, 3.5rem + 2.5vw, 6.25rem);
+    transition: height var(--dur-fast) var(--ease-out);
+  }
+  .nav.is-scrolled .nav__inner { height: 4.25rem; }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.55rem, 0.4rem + 0.4vw, 0.8rem);
+    min-width: 0;
+  }
+  .nav__logo {
+    flex: none;
+    width: clamp(26px, 22px + 0.6vw, 30px);
+    height: auto;
+    aspect-ratio: 380 / 384;
+  }
+  .nav__word {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 2.05rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .nav__end { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2.25rem); flex: none; }
+  .nav__city { display: none; font-size: 0.95rem; }
+
+  /* below 480px only "Join →" fits next to the logo; the rest stays in the accessible name */
+  @media (max-width: 479px) {
+    .nav__cta-rest {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden; clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+  @media (min-width: 1024px) {
+    .nav__city { display: block; }
+  }
+</style>

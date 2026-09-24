@@ -1,0 +1,276 @@
+---
+import { hero, event, links } from '../content/site';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import RotatingBadge from '../components/RotatingBadge.astro';
+const [t1, t2] = event.schedule;
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <Photo slot="heroSunsetSocial" fill eager sizes="(min-width: 1024px) 70vw, 100vw" />
+    <div class="hero__fade" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__body container">
+    <div class="hero__copy">
+      <p class="label hero__label">
+        {hero.label.map((w, i) => (<>{i > 0 && <span class="dot" aria-hidden="true">·</span>}<span>{w}</span></>))}
+      </p>
+
+      <div class="hero__head">
+        <h1 id="hero-title" class="display lines hero__title">
+          {hero.headline.lines.map((l) => <span aria-hidden="true">{l}</span>)}
+          <span class="accent" aria-hidden="true">{hero.headline.accent}</span>
+          <span class="sr-only">{hero.headlineLabel}</span>
+        </h1>
+        <div class="hero__badge"><RotatingBadge /></div>
+      </div>
+
+      <p class="lead hero__lead">{hero.copy}</p>
+
+      <ul class="hero__info" aria-label="Event details">
+        <li>
+          <Icon name="calendar" />
+          <div>
+            <strong><time datetime={event.dateISO}>{event.dateLabel}</time></strong>
+            <span>{event.dayLabel}</span>
+          </div>
+        </li>
+        <li>
+          <Icon name="pin" />
+          <div>
+            <strong>{event.venue}</strong>
+            <span>{event.city}</span>
+          </div>
+        </li>
+        <li>
+          <Icon name="clock" />
+          <div class="hero__times">
+            <div><strong>{t1.start}–{t1.end}</strong><span>{t1.label}</span></div>
+            <div><strong>{t2.start}–{t2.end}</strong><span>{t2.label}</span></div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="hero__ctas">
+        <a class="btn btn--lg" href={links.register} data-join>
+          {hero.primaryCta}
+          <Icon name="arrow" class="arrow" />
+        </a>
+        <a class="link-u" href={links.details}>{hero.secondaryCta}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip on-dark">
+    <div class="strip__inner container">
+      <ol class="strip__list">
+        {hero.strip.items.map((s) => (
+          <li>
+            <span class="num strip__num" aria-hidden="true">{s.num}</span>
+            <div>
+              <p class="caps strip__title">{s.title}</p>
+              <p class="strip__text">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <a class="strip__more" href={links.register} data-join>
+        <span class="strip__circle" aria-hidden="true"><Icon name="arrow-down" size={22} class="strip__arrow" /></span>
+        <span class="label strip__tag">
+          <span>{hero.strip.tagline[0]}</span>
+          <span>{hero.strip.tagline[1]}</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--ivory);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Media ---------- */
+  .hero__media {
+    position: relative;
+    order: 2;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    --pos: 55% 45%; /* faces in frame on the 4:5 mobile crop */
+  }
+  .hero__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--ivory) 0%, rgb(var(--ivory-rgb) / 0) 22%);
+    pointer-events: none;
+  }
+
+  /* ---------- Copy ---------- */
+  .hero__body {
+    position: relative;
+    z-index: 2;
+    order: 1;
+    padding-top: calc(clamp(4.25rem, 3.5rem + 2.5vw, 6.25rem) + clamp(1.25rem, 0.5rem + 2vw, 2.5rem));
+    padding-bottom: var(--s-7);
+  }
+  .hero__label { display: flex; gap: 1.1em; margin-bottom: clamp(1rem, 0.6rem + 1vw, 1.5rem); }
+  .hero__label .dot { color: var(--ink-soft); }
+
+  .hero__head { position: relative; }
+  .hero__title { width: max-content; max-width: 100%; }
+  .hero__title .accent { margin-top: 0.02em; text-transform: none; }
+  .hero__title .sr-only { text-transform: none; }
+
+  .hero__badge {
+    position: absolute;
+    right: 0;
+    /* sits beside the short "Vol. 2" line, clear of PADEL / SOCIAL */
+    bottom: 0;
+    width: clamp(5.5rem, 3rem + 6.5vw, 10rem);
+  }
+
+  .hero__lead {
+    margin-top: clamp(1rem, 0.6rem + 1vw, 1.5rem);
+    max-width: 25em;
+  }
+
+  .hero__info {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+    padding-top: var(--s-5);
+    border-top: 1px solid rgb(238 138 30 / 0.45);
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  .hero__info li { display: flex; gap: 0.85rem; align-items: flex-start; }
+  .hero__info :global(.icon) { flex: none; margin-top: 0.05rem; }
+  .hero__info strong { display: block; font-weight: 500; }
+  .hero__info span { display: block; color: var(--ink-soft); font-size: 0.88rem; }
+  .hero__times { display: grid; gap: 0.6rem; }
+  /* below desktop: the two time slots sit side by side, wrapping only if they don't fit */
+  @media (max-width: 1023px) {
+    .hero__times { display: flex; flex-wrap: wrap; gap: 0.6rem 1.1rem; }
+    .hero__times > div + div { padding-left: 1.1rem; border-left: 1px solid rgb(238 138 30 / 0.45); }
+  }
+  /* tablet: three items don't fit one row once the times sit side by side,
+     so the time slots take their own row under date + venue */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .hero .hero__info { grid-template-columns: repeat(2, auto); row-gap: var(--s-5); }
+    .hero .hero__info li:nth-child(3) { grid-column: 1 / -1; padding-left: 0; border-left: 0; }
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-4) var(--s-7);
+    margin-top: var(--s-6);
+  }
+
+  /* ---------- Bottom strip ---------- */
+  .strip { order: 3; position: relative; z-index: 2; }
+  .strip__inner {
+    display: grid;
+    gap: var(--s-5);
+    padding-block: var(--s-6);
+  }
+  .strip__list { display: grid; }
+  .strip__list li {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .strip__num { font-size: clamp(2.4rem, 1.8rem + 1.6vw, 3.4rem); color: var(--cream); min-width: 2.2ch; }
+  .strip__title { font-size: 1.05rem; letter-spacing: 0.1em; }
+  .strip__text { font-size: 0.9rem; color: var(--cream-soft); margin-top: 0.15rem; }
+
+  .strip__more { display: flex; align-items: center; gap: 1.5rem; }
+  .strip__circle {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid var(--amber);
+    border-radius: 50%;
+    color: var(--cream);
+    transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast);
+  }
+  .strip__more:hover .strip__circle,
+  .strip__more:focus-visible .strip__circle { background: var(--amber); color: var(--ink); }
+  .strip__circle :global(.strip__arrow) { transition: transform var(--dur-fast) var(--ease-out); }
+  .strip__more:hover :global(.strip__arrow),
+  .strip__more:focus-visible :global(.strip__arrow) { transform: translateY(3px); }
+  .strip__more:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    .strip__circle :global(.strip__arrow) { transition: none; }
+    .strip__more:hover :global(.strip__arrow),
+    .strip__more:focus-visible :global(.strip__arrow) { transform: none; }
+  }
+  .strip__tag { display: grid; gap: 0.7rem; font-size: 0.66rem; }
+
+  /* ---------- Tablet ---------- */
+  @media (min-width: 640px) {
+    .hero__info { grid-template-columns: repeat(3, auto); justify-content: start; gap: 0; }
+    .hero__info li { padding-inline: 1.4rem; border-left: 1px solid rgb(238 138 30 / 0.55); }
+    .hero__info li:first-child { padding-left: 0; border-left: 0; }
+    .hero__media { aspect-ratio: 16 / 11; --pos: 45% 45%; }
+  }
+
+  /* ---------- Desktop: split, photo full-bleed right ---------- */
+  @media (min-width: 1024px) {
+    .hero { min-height: min(100svh, 68rem); }
+    .hero__media {
+      position: absolute;
+      inset: 0 0 auto 30%;
+      height: calc(100% - var(--strip-h, 8.5rem));
+      aspect-ratio: auto;
+      --pos: 30% 40%;
+    }
+    .hero__fade {
+      background:
+        linear-gradient(90deg, var(--ivory) 0%, rgb(var(--ivory-rgb) / 0.92) 12%, rgb(var(--ivory-rgb) / 0.45) 30%, rgb(var(--ivory-rgb) / 0) 52%),
+        linear-gradient(180deg, rgb(var(--ivory-rgb) / 0.35) 0%, rgb(var(--ivory-rgb) / 0) 18%);
+    }
+    .hero__body { flex: 1; padding-bottom: var(--s-7); }
+    .hero__info { margin-top: var(--s-5); }
+    .hero__ctas { margin-top: var(--s-5); }
+    .hero__copy { max-width: 38rem; }
+    .hero__head { width: max-content; max-width: 100%; }
+    .hero__badge { right: auto; left: calc(100% - 3.5rem); bottom: 0; }
+    .hero__title .accent { font-size: 1.02em; }
+
+    .strip { --strip-h: 8.5rem; }
+    .strip__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: var(--strip-h);
+      padding-block: 1.5rem;
+      gap: var(--s-7);
+    }
+    .strip__list { grid-template-columns: repeat(3, 1fr); }
+    .strip__list li {
+      border-bottom: 0;
+      padding: 0 1.5rem 0 2.25rem;
+      border-left: 1px solid var(--amber);
+      height: 3.25rem;
+    }
+    .strip__list li:first-child { border-left: 0; padding-left: 0; }
+    .strip__more { padding-left: 2.25rem; border-left: 1px solid var(--amber); height: 3.25rem; }
+  }
+  @media (min-width: 1024px) {
+    .hero { --strip-h: 8.5rem; }
+  }
+  @media (min-width: 1280px) {
+    .hero__copy { max-width: 42rem; }
+    .hero__media { left: 34%; }
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import { atmosphere } from '../content/site';
+import Photo from '../components/Photo.astro';
+import type { PhotoKey } from '../content/photos';
+
+const tiles: { slot: PhotoKey; cls: string; sizes: string }[] = [
+  { slot: 'atmoCourts', cls: 't-courts', sizes: '(min-width: 1024px) 50vw, 72vw' },
+  { slot: 'atmoPlayers', cls: 't-players', sizes: '(min-width: 1024px) 25vw, 72vw' },
+  { slot: 'atmoDj', cls: 't-dj', sizes: '(min-width: 1024px) 25vw, 72vw' },
+  { slot: 'atmoCrowd', cls: 't-crowd', sizes: '(min-width: 1024px) 42vw, 72vw' },
+];
+---
+
+<section class="atmo on-dark" id="atmosphere" aria-labelledby="atmo-title">
+  <div class="container atmo__head">
+    <p class="label label--accent">{atmosphere.label}</p>
+    <p class="label atmo__support">
+      {atmosphere.support.map((w, i) => (<>{i > 0 && <span aria-hidden="true"> · </span>}{w}</>))}
+    </p>
+  </div>
+
+  <div class="atmo__stage">
+    <div class="atmo__grid" role="list" aria-label="Atmosphere gallery">
+      {tiles.map((t) => (
+        <div class:list={['atmo__tile', t.cls]} role="listitem">
+          <Photo slot={t.slot} sizes={t.sizes} ratio="auto" />
+        </div>
+      ))}
+    </div>
+
+    <h2 id="atmo-title" class="atmo__statement lines">
+      <span>{atmosphere.statement.line1}</span>
+      <span>{atmosphere.statement.line2.plain}<span class="accent">{atmosphere.statement.line2.accent}</span></span>
+    </h2>
+  </div>
+</section>
+
+<style>
+  .atmo {
+    padding-block: var(--section-y);
+    overflow: hidden;
+  }
+  .atmo__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-5);
+    margin-bottom: var(--s-7);
+  }
+  .atmo__support { color: var(--cream-soft); }
+
+  .atmo__stage { position: relative; }
+
+  .atmo__statement {
+    font-family: var(--font-serif);
+    font-optical-sizing: none;
+    font-variation-settings: var(--opsz-display);
+    font-weight: 500;
+    font-size: clamp(3rem, 1rem + 8.5vw, 10.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    color: var(--cream);
+    padding-inline: var(--gutter);
+    margin-top: var(--s-6);
+  }
+
+  /* ---- Mobile: horizontal gallery with scroll-snap ---- */
+  .atmo__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .atmo__grid::-webkit-scrollbar { display: none; }
+  .atmo__tile { scroll-snap-align: start; aspect-ratio: 4 / 5; }
+  .atmo__tile :global(.photo) { height: 100%; }
+
+  /* ---- Desktop: campaign collage with layered statement ---- */
+  @media (min-width: 1024px) {
+    .atmo__grid {
+      max-width: var(--container);
+      margin-inline: auto;
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(12, clamp(2.6rem, 3.9vw, 3.9rem));
+      gap: 1rem;
+      overflow: visible;
+    }
+    .atmo__tile { aspect-ratio: auto; }
+    /* 4 photos, asymmetric campaign collage */
+    .t-courts  { grid-column: 1 / 7;  grid-row: 1 / 7; }
+    .t-dj      { grid-column: 7 / 10; grid-row: 1 / 9; }
+    .t-players { grid-column: 10 / 13; grid-row: 3 / 11; }
+    .t-crowd   { grid-column: 2 / 7;  grid-row: 7 / 13; }
+
+    .atmo__statement {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-38%);
+      margin: 0 auto;
+      max-width: var(--container);
+      text-align: center;
+      pointer-events: none;
+      mix-blend-mode: normal;
+      text-shadow: 0 2px 40px rgb(27 22 19 / 0.45);
+    }
+    .atmo__statement .accent { text-shadow: none; }
+  }
+</style>

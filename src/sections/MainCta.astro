@@ -1,0 +1,314 @@
+---
+import { mainCta, registration as r, links } from '../content/site';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+const f = r.fields;
+---
+
+<section class="cta on-accent" id="join" aria-labelledby="cta-title">
+  <div class="container cta__grid">
+    <div class="cta__lead">
+      <p class="label cta__small">{mainCta.small}</p>
+      <h2 id="cta-title" class="h2 lines cta__title">
+        {mainCta.headline.map((l) => <span>{l}</span>)}
+      </h2>
+      <div class="cta__macro">
+        <Photo slot="ctaMacro" sizes="(min-width: 1024px) 18vw, 40vw" decorative />
+      </div>
+    </div>
+
+    <div class="reg" id="register" tabindex="-1">
+      <div class="reg__head">
+        <h3 class="caps reg__title">{r.title}</h3>
+        <p class="reg__intro">{r.intro}</p>
+      </div>
+
+      <form class="reg__form" method="post" novalidate data-reg-form>
+        <div class="field">
+          <label for="f-name">{f.fullName}</label>
+          <input id="f-name" name="full_name" type="text" autocomplete="name" required aria-describedby="e-name" />
+          <p class="field__err" id="e-name"></p>
+        </div>
+
+        <div class="field">
+          <label for="f-email">{f.email}</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email" />
+          <p class="field__err" id="e-email"></p>
+        </div>
+
+        <div class="reg__row">
+          <div class="field">
+            <label for="f-phone">{f.phone} <span class="opt">({f.optional})</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="e-phone" />
+            <p class="field__err" id="e-phone"></p>
+          </div>
+          <div class="field">
+            <label for="f-ig">{f.instagram} <span class="opt">({f.optional})</span></label>
+            <input id="f-ig" name="instagram" type="text" autocomplete="off" placeholder="@" />
+          </div>
+        </div>
+
+        <fieldset class="field choice" aria-describedby="e-part">
+          <legend>{f.participation}</legend>
+          <div class="choice__opts">
+            {f.participationOptions.map((o, i) => (
+              <label class="opt-box">
+                <input type="radio" name="participation" value={o.value} required checked={i === 0} />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </div>
+          <p class="field__err" id="e-part"></p>
+        </fieldset>
+
+        <div class="field" data-level>
+          <label for="f-level">{f.level}</label>
+          <div class="select">
+            <select id="f-level" name="level" aria-describedby="h-level e-level">
+              <option value="" disabled selected>{f.levelPlaceholder}</option>
+              {f.levelGroups.map((g) => (
+                <optgroup label={g.label}>
+                  {g.options.map((o) => <option value={o.value}>{o.label}</option>)}
+                </optgroup>
+              ))}
+              <option value={f.levelNone.value}>{f.levelNone.label}</option>
+            </select>
+            <svg class="select__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <p class="field__help" id="h-level">{f.levelHelp}</p>
+          <p class="field__err" id="e-level"></p>
+        </div>
+
+        <!-- honeypot: hidden from people and assistive tech -->
+        <div class="hp" aria-hidden="true">
+          <label for="f-company">Company</label>
+          <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field consent">
+          <label class="consent__label">
+            <input type="checkbox" name="consent" required aria-describedby="e-consent" />
+            <span class="consent__box" aria-hidden="true"></span>
+            <span>
+              {f.consent}
+              <a href={links.privacy.href!} target="_blank" rel="noopener">{links.privacy.label}</a>.
+            </span>
+          </label>
+          <p class="field__err" id="e-consent"></p>
+        </div>
+
+        <button class="btn btn--dark btn--lg reg__submit" type="submit">
+          <span data-submit-label>{r.submit}</span>
+          <Icon name="arrow" class="arrow" />
+        </button>
+
+        <div class="reg__notice" role="status" tabindex="-1" hidden data-not-ready>
+          <p>{r.notReady.text}</p>
+          <a class="link-u" href={r.notReady.href} target="_blank" rel="noopener">{r.notReady.linkLabel} ↗</a>
+        </div>
+
+        <p class="sr-only" aria-live="polite" data-status></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Conditional fields (full validation + submit logic arrives in Stage 4)
+  const form = document.querySelector<HTMLFormElement>('[data-reg-form]');
+  if (form) {
+    const level = form.querySelector<HTMLElement>('[data-level]')!;
+    const levelSelect = level.querySelector<HTMLSelectElement>('select')!;
+    const sync = () => {
+      const fd = new FormData(form);
+      const playing = fd.get('participation') === 'tournament_after';
+      level.hidden = !playing;
+      levelSelect.required = playing; // required only for Tournament + After Padel
+    };
+    form.addEventListener('change', sync);
+    sync();
+
+    // No registration backend yet (Stage 4). Never fake success and never send data:
+    // show the "opens very soon" notice with the Telegram link instead.
+    const notice = form.querySelector<HTMLElement>('[data-not-ready]')!;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      notice.hidden = false;
+      notice.focus();
+    });
+  }
+</script>
+
+<style>
+  .cta {
+    background: var(--grad-section);
+    color: var(--ink);
+    padding-block: var(--section-y);
+    position: relative;
+    overflow: hidden;
+  }
+  /* soft tonal depth, not a flat SaaS gradient */
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 80% at 0% 100%, rgb(214 110 20 / 0.35), transparent 70%),
+      radial-gradient(40% 60% at 100% 0%, rgb(255 214 120 / 0.35), transparent 70%);
+    pointer-events: none;
+  }
+  .cta__grid { position: relative; display: grid; gap: var(--s-8); }
+  .cta__grid > * { min-width: 0; }
+  /* the headline is sized against its own column: "ON COURT?" ≈ 5.55em wide */
+  .cta__lead { container-type: inline-size; }
+
+  .cta__small { letter-spacing: 0.32em; }
+  .cta__title {
+    margin-top: var(--s-5);
+    font-size: min(clamp(3.6rem, 1.4rem + 9vw, 10.5rem), calc(100cqi / 5.75));
+    line-height: 0.86;
+  }
+  .cta__macro { width: 42%; max-width: 13rem; margin-top: var(--s-7); }
+
+  /* ---- Registration panel ---- */
+  .reg {
+    background: var(--ivory);
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    outline: none;
+  }
+  .reg__head { padding-bottom: var(--s-5); margin-bottom: var(--s-5); border-bottom: 1px solid var(--ivory-line); }
+  .reg__title { font-size: 1.05rem; letter-spacing: 0.16em; }
+  .reg__intro { margin-top: 0.4rem; color: var(--ink-soft); font-size: 0.95rem; }
+
+  .reg__form { display: grid; gap: 1.35rem; }
+  .reg__row { display: grid; gap: 1.35rem; }
+
+  .field { display: grid; gap: 0.35rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+  .field[hidden] { display: none; }
+  .field > label:not(.consent__label), .field legend {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0;
+  }
+  .field legend { margin-bottom: 0.6rem; }
+  .opt { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-soft); }
+
+  .field input[type='text'],
+  .field input[type='email'],
+  .field input[type='tel'] {
+    width: 100%;
+    height: 3rem;
+    padding: 0 0.1rem;
+    border: 0;
+    border-bottom: 1px solid var(--field-line);
+    border-radius: 0;
+    background: transparent;
+    font-size: 1.05rem;
+    transition: border-color var(--dur-fast);
+  }
+  .field input:hover { border-bottom-color: var(--ink); }
+  .field input:focus-visible { outline: none; border-bottom: 1.5px solid var(--amber); box-shadow: 0 1px 0 0 var(--amber); }
+  .field input[aria-invalid='true'] { border-bottom-color: #a4260e; }
+  .field__err { font-size: 0.82rem; color: #a4260e; min-height: 0; }
+  .field__err:empty { display: none; }
+
+  .choice__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  /* level select: flat, thin border, custom chevron */
+  .select { position: relative; }
+  .select select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3rem;
+    padding: 0 2.5rem 0 0.9rem;
+    border: 1px solid var(--field-box);
+    border-radius: 0;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color var(--dur-fast);
+  }
+  .select select:hover { border-color: var(--ink); }
+  .select select:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--ink); }
+  .select select:invalid { color: var(--ink-soft); }
+  .select select option, .select select optgroup { color: var(--ink); }
+  .select select[aria-invalid='true'] { border-color: #a4260e; }
+  .select__chevron { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink); }
+  .field__help { font-size: 0.8rem; color: var(--ink-soft); }
+  .opt-box { position: relative; display: block; cursor: pointer; }
+  .opt-box input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .opt-box span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--field-box);
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.2;
+    transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+  }
+  .opt-box:hover span { border-color: var(--ink); }
+  .opt-box input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+  .opt-box input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .consent__label { display: flex; gap: 0.8rem; align-items: flex-start; font-size: 0.85rem; line-height: 1.45; color: var(--ink-soft); cursor: pointer; position: relative; }
+  .consent__label input { position: absolute; opacity: 0; width: 1.15rem; height: 1.15rem; margin: 0.1rem 0 0; }
+  .consent__box {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.1rem;
+    border: 1px solid var(--field-check);
+    display: grid;
+    place-items: center;
+  }
+  .consent__label input:checked + .consent__box { background: var(--ink); border-color: var(--ink); }
+  .consent__label input:checked + .consent__box::after {
+    content: '';
+    width: 0.3rem;
+    height: 0.6rem;
+    border: solid var(--cream);
+    border-width: 0 1.5px 1.5px 0;
+    transform: translateY(-1px) rotate(45deg);
+  }
+  .consent__label input:focus-visible + .consent__box { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .consent__label input[aria-invalid='true'] + .consent__box { border-color: #a4260e; }
+  .consent a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+  .reg__submit { width: 100%; margin-top: 0.25rem; }
+  .reg__notice {
+    display: grid;
+    gap: 0.6rem;
+    justify-items: start;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--amber);
+    background: rgb(238 138 30 / 0.08);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .reg__notice[hidden] { display: none; }
+  .reg__notice:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  @media (min-width: 560px) {
+    .reg__row { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 1024px) {
+    .cta__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      align-items: start;
+    }
+    .cta__lead { grid-column: 1 / 7; position: sticky; top: 7rem; }
+    .reg { grid-column: 7 / 13; }
+  }
+  @media (min-width: 1280px) {
+    .reg { grid-column: 8 / 13; }
+  }
+</style>

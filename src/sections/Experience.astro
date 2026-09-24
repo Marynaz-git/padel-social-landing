@@ -1,0 +1,99 @@
+---
+import { experience } from '../content/site';
+import Photo from '../components/Photo.astro';
+---
+
+<section class="exp section on-dark" id="experience" aria-labelledby="exp-title">
+  <div class="container">
+    <header class="exp__head">
+      <h2 id="exp-title" class="label label--accent">{experience.label}</h2>
+      <span class="exp__line" aria-hidden="true"></span>
+      <p class="label exp__date">03.10.2026 · Lisbon</p>
+    </header>
+
+    <ol class="exp__rows">
+      {experience.rows.map((r, i) => (
+        <li class:list={['exp__row', `exp__row--${i + 1}`]}>
+          <div class="exp__meta">
+            <span class="num exp__num" data-drift>{r.num}</span>
+            <span class="exp__time">{r.time}</span>
+          </div>
+          <h3 class="exp__title">{r.title}</h3>
+          <ul class="exp__items">
+            {r.items.map((it) => <li>{it}</li>)}
+          </ul>
+          <div class="exp__photo">
+            <Photo slot={r.photo} sizes="(min-width: 1024px) 22vw, 100vw" />
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .exp__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-5);
+    margin-bottom: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  }
+  .exp__line { flex: 1; height: 1px; background: var(--line-dark); }
+  @media (max-width: 639px) { .exp__line, .exp__date { display: none; } }
+  .exp__date { color: var(--cream-soft); }
+
+  .exp__rows { border-top: 1px solid var(--line-dark); container-type: inline-size; }
+  .exp__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+    padding-block: clamp(2rem, 1.2rem + 3vw, 4rem);
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .exp__meta { display: flex; align-items: baseline; gap: 1.25rem; }
+  .exp__num { font-size: clamp(3rem, 2rem + 3vw, 5.5rem); color: var(--gold); }
+  .exp__time {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .exp__title {
+    font-family: var(--font-serif);
+    font-optical-sizing: none;
+    font-variation-settings: var(--opsz-display);
+    font-weight: 500;
+    /* capped so the longest title ("CONNECT" ≈ 4.63em) always fits its column */
+    font-size: min(clamp(3.6rem, 1.8rem + 6.4vw, 7.25rem), calc(100cqi / 4.8));
+    line-height: 0.85;
+    white-space: nowrap;
+    letter-spacing: -0.035em;
+  }
+  .exp__row--2 .exp__title { font-style: italic; }
+  .exp__items { display: grid; gap: 0.45rem; font-size: 1rem; color: var(--cream-soft); }
+  .exp__items li::before { content: '—'; color: var(--amber); margin-right: 0.7em; }
+  /* below desktop: number + time → title → list → full-width image */
+  .exp__row > * { min-width: 0; }
+
+  @media (min-width: 1024px) {
+    .exp__row {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 5fr) minmax(0, 2.5fr) minmax(0, 3fr);
+      grid-template-areas: 'meta title items photo';
+      align-items: center;
+      column-gap: var(--col-gap);
+    }
+    .exp__meta { grid-area: meta; flex-direction: column; gap: 0.75rem; }
+    .exp__title { grid-area: title;
+      /* title column = 5 / 12.5 of the row, minus the three gaps */
+      font-size: min(clamp(3.6rem, 1.8rem + 6.4vw, 7.25rem), calc((100cqi - 3 * var(--col-gap)) * 0.4 / 4.8));
+    }
+    .exp__items { grid-area: items; }
+    .exp__photo { grid-area: photo; }
+    .exp__items { padding-top: 0.5rem; }
+    .exp__photo :global(.photo) { max-width: none; }
+    /* asymmetric: photos step across the programme */
+    .exp__row--1 .exp__photo { transform: translateY(-1.5rem); }
+    .exp__row--3 .exp__photo { transform: translateY(1.5rem); }
+  }
+</style>

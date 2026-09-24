@@ -1,0 +1,57 @@
+---
+import { marquee } from '../content/site';
+const words = [...marquee, ...marquee];
+---
+
+<div class="marquee" role="presentation">
+  <p class="sr-only">{marquee.join(' · ')}</p>
+  <div class="marquee__track" aria-hidden="true">
+    {[0, 1].map(() => (
+      <ul class="marquee__group">
+        {words.map((w) => (
+          <li>
+            <span>{w}</span>
+            <i>·</i>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    border-block: 1px solid var(--ivory-line);
+    padding-block: clamp(1rem, 0.6rem + 1.4vw, 1.75rem);
+    background: var(--ivory);
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--dur-marquee) linear infinite;
+  }
+  .marquee__group { display: flex; flex: none; }
+  .marquee__group li {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-serif);
+    font-optical-sizing: none;
+    font-variation-settings: var(--opsz-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2rem, 1.2rem + 3vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .marquee__group i {
+    font-style: normal;
+    color: var(--amber);
+    padding-inline: 0.55em;
+  }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+  }
+</style>

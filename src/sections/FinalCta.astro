@@ -1,0 +1,62 @@
+---
+import { finalCta, links } from '../content/site';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<section class="final on-dark" aria-labelledby="final-title">
+  <div class="final__media">
+    <Photo slot="finalSunset" fill eager priority="low" sizes="100vw" />
+    <div class="final__shade" aria-hidden="true"></div>
+  </div>
+
+  <div class="container final__body">
+    <p class="label label--accent">{finalCta.label}</p>
+    <h2 id="final-title" class="final__title lines">
+      {finalCta.lines.map((l) => <span>{l}</span>)}
+      <span class="accent">{finalCta.accent}</span>
+    </h2>
+    <a class="btn btn--lg" href={links.register} data-join>
+      {finalCta.cta}
+      <Icon name="arrow" class="arrow" />
+    </a>
+  </div>
+</section>
+
+<style>
+  .final {
+    position: relative;
+    min-height: min(100svh, 62rem);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .final__media { position: absolute; inset: 0; --pos: 58% 45%; }
+  /* dark fallback while the photo decodes — never a light/grey gradient */
+  .final__media :global(.photo) { background: var(--charcoal); }
+  @media (min-width: 768px) { .final__media { --pos: 50% 45%; } }
+  .final__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, rgb(27 22 19 / 0.92) 0%, rgb(27 22 19 / 0.55) 38%, rgb(27 22 19 / 0.1) 70%),
+      linear-gradient(90deg, rgb(27 22 19 / 0.45) 0%, transparent 60%);
+  }
+  .final__body {
+    position: relative;
+    padding-block: var(--section-y) clamp(3rem, 2rem + 4vw, 6rem);
+    display: grid;
+    gap: var(--s-6);
+    justify-items: start;
+  }
+  .final__title {
+    font-family: var(--font-serif);
+    font-optical-sizing: none;
+    font-variation-settings: var(--opsz-display);
+    font-weight: 500;
+    font-size: var(--fs-mega);
+    line-height: 0.86;
+    letter-spacing: -0.035em;
+    color: var(--cream);
+  }
+</style>

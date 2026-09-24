@@ -1,0 +1,72 @@
+---
+import { location, links } from '../content/site';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<section class="loc section" id="location" aria-labelledby="loc-title">
+  <div class="container loc__grid">
+    <div class="loc__text">
+      <p class="label label--accent">{location.label}</p>
+      <h2 id="loc-title" class="h2 lines loc__title">
+        {location.title.map((l) => <span>{l}</span>)}
+      </h2>
+      <p class="loc__city serif"><span class="accent">{location.city}</span></p>
+      <p class="loc__body">{location.text}</p>
+      <a class="link-u loc__link" href={links.directions.href} target="_blank" rel="noopener">
+        {links.directions.label.replace(' ↗', '')}
+        <Icon name="arrow-up-right" size={16} />
+        <span class="sr-only">(opens Google Maps in a new tab)</span>
+      </a>
+    </div>
+
+    <div class="loc__media">
+      <div class="loc__main">
+        <Photo slot="locationVenue" sizes="(min-width: 1024px) 60vw, 100vw" />
+      </div>
+      <div class="loc__detail">
+        <Photo slot="locationDetail" sizes="(min-width: 1024px) 20vw, 45vw" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .loc { background: var(--ivory); padding-top: 0; }
+  .loc__grid { display: grid; gap: var(--s-7); }
+  .loc__text { display: grid; gap: var(--s-4); align-content: start; }
+  .loc__title { margin-top: var(--s-3); font-size: clamp(2.8rem, 1.4rem + 4.6vw, 5.75rem); }
+  .loc__city { font-size: clamp(2.2rem, 1.4rem + 3vw, 4.2rem); line-height: 1; }
+  .loc__body { max-width: 22rem; margin-top: var(--s-4); color: var(--ink-soft); }
+  .loc__link { justify-self: start; margin-top: var(--s-3); }
+
+  .loc__media { position: relative; padding-bottom: 18%; }
+  .loc__main { margin-right: calc(var(--gutter) * -1); }
+  .loc__detail {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 44%;
+    border: 0.5rem solid var(--ivory);
+    border-left: 0;
+    border-bottom: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .loc__grid {
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: var(--col-gap);
+      align-items: start;
+    }
+    .loc__text { grid-column: 1 / 6; padding-top: 4rem; position: relative; z-index: 1; }
+    .loc__media { grid-column: 7 / 13; padding-bottom: 0; }
+    .loc__main { margin-right: calc((100vw - min(100vw, var(--container))) / -2 - var(--gutter)); }
+    .loc__detail {
+      left: -26%;
+      bottom: -5rem;
+      width: 34%;
+      border-width: 0.75rem;
+      border-left: 0.75rem solid var(--ivory);
+    }
+  }
+</style>
