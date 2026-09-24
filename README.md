@@ -2,7 +2,7 @@
 
 Single-page event landing. Astro (static output), plain CSS with custom properties, and a little TypeScript.
 
-> Status: **design approved, preview deploy.** The registration form is visible but not connected yet: on submit it shows “Registration opens very soon — message us on Telegram” and sends nothing. Next: Stage 4 (Supabase + Formspree).
+> Status: **live registration via Formspree.** Each registration is emailed through Formspree (`PUBLIC_FORMSPREE_ID`). Supabase is optional: if its env vars are set, registrations are also stored there.
 
 ## Local setup
 
@@ -54,6 +54,14 @@ The project is a static Astro site. Vercel detects it automatically.
 3. Click **Deploy**. Every push to `main` redeploys; other branches get preview URLs.
 4. **Custom domain (optional).** Project → Settings → Domains → add the domain and set the DNS records Vercel shows. Then set `PUBLIC_SITE_URL` to it and redeploy.
 
-### Later (Stage 4)
-Add in Vercel → Settings → Environment Variables: `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, optional `PUBLIC_FORMSPREE_ID`. Never add the Supabase service_role key.
+### Registration (Formspree)
+- Vercel → Project → Settings → Environment Variables → add `PUBLIC_FORMSPREE_ID` (your form ID) for Production and Preview → Redeploy.
+- Without it the production form shows “Something went wrong, please try again later” and logs an error to the console. It never fakes success.
+- Local testing: put `PUBLIC_FORMSPREE_ID=…` in `.env` (git-ignored). With no ID, `npm run dev` uses a mock: add `?mock=success`, `?mock=duplicate` or `?mock=error` to the URL.
+
+### Optional: Supabase copy
+1. Create a Supabase project → SQL Editor → run `supabase/migrations/0001_registrations.sql`.
+2. Project Settings → API → copy the Project URL and the **anon public** key.
+3. Add `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` in Vercel → Redeploy. Duplicate emails then show “You’re already on the list”.
+4. View / export: Table Editor → registrations → Export to CSV. Never use the service_role key in the site.
 

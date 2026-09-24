@@ -1,5 +1,5 @@
 ---
-import { mainCta, registration as r, links } from '../content/site';
+import { mainCta, registration as r, event, links } from '../content/site';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 const f = r.fields;
@@ -97,44 +97,157 @@ const f = r.fields;
           <p class="field__err" id="e-consent"></p>
         </div>
 
-        <button class="btn btn--dark btn--lg reg__submit" type="submit">
+        <div class="reg__alert" role="alert" hidden data-alert>
+          <p class="reg__alert-title" data-alert-title></p>
+          <p data-alert-text></p>
+        </div>
+
+        <button class="btn btn--dark btn--lg reg__submit" type="submit" data-submit>
           <span data-submit-label>{r.submit}</span>
           <Icon name="arrow" class="arrow" />
         </button>
 
-        <div class="reg__notice" role="status" tabindex="-1" hidden data-not-ready>
-          <p>{r.notReady.text}</p>
-          <a class="link-u" href={r.notReady.href} target="_blank" rel="noopener">{r.notReady.linkLabel} ↗</a>
-        </div>
-
         <p class="sr-only" aria-live="polite" data-status></p>
       </form>
+
+      {(['success', 'duplicate'] as const).map((k) => (
+        <div class="reg__result" hidden tabindex="-1" data-result={k}>
+          <p class="caps reg__result-title">{r[k].title}</p>
+          <p class="reg__result-text">{r[k].text}</p>
+          <dl class="reg__facts">
+            <div><dt>Date</dt><dd>{event.dayLabel}, {event.dateLabel}</dd></div>
+            <div><dt>Venue</dt><dd>{event.venue}, {event.city}</dd></div>
+            {event.schedule.map((s) => (
+              <div><dt>{s.start}–{s.end}</dt><dd>{s.label}</dd></div>
+            ))}
+          </dl>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
 <script>
-  // Conditional fields (full validation + submit logic arrives in Stage 4)
+  import { validate, submitRegistration, type RegistrationData, type FieldKey, type Participation } from '../lib/registration';
+  import { registration as r } from '../content/site';
+  import type { FppLevel } from '../content/site';
+
   const form = document.querySelector<HTMLFormElement>('[data-reg-form]');
   if (form) {
+    const reg = form.closest<HTMLElement>('.reg')!;
     const level = form.querySelector<HTMLElement>('[data-level]')!;
     const levelSelect = level.querySelector<HTMLSelectElement>('select')!;
-    const sync = () => {
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const alertBox = form.querySelector<HTMLElement>('[data-alert]')!;
+
+    // field → [focus target, inputs that get aria-invalid, error element]
+    const fields: Record<FieldKey, { focus: HTMLElement; inputs: HTMLElement[]; err: HTMLElement }> = {
+      fullName: { focus: form.querySelector('#f-name')!, inputs: [form.querySelector('#f-name')!], err: form.querySelector('#e-name')! },
+      email: { focus: form.querySelector('#f-email')!, inputs: [form.querySelector('#f-email')!], err: form.querySelector('#e-email')! },
+      phone: { focus: form.querySelector('#f-phone')!, inputs: [form.querySelector('#f-phone')!], err: form.querySelector('#e-phone')! },
+      participation: {
+        focus: form.querySelector('input[name="participation"]')!,
+        inputs: [...form.querySelectorAll<HTMLElement>('input[name="participation"]')],
+        err: form.querySelector('#e-part')!,
+      },
+      level: { focus: levelSelect, inputs: [levelSelect], err: form.querySelector('#e-level')! },
+      consent: {
+        focus: form.querySelector('input[name="consent"]')!,
+        inputs: [form.querySelector('input[name="consent"]')!],
+        err: form.querySelector('#e-consent')!,
+      },
+    };
+    const order: FieldKey[] = ['fullName', 'email', 'phone', 'participation', 'level', 'consent'];
+    const touched = new Set<FieldKey>();
+
+    const read = (): RegistrationData => {
       const fd = new FormData(form);
-      const playing = fd.get('participation') === 'tournament_after';
+      const participation = String(fd.get('participation') ?? '') as Participation;
+      return {
+        fullName: String(fd.get('full_name') ?? ''),
+        email: String(fd.get('email') ?? ''),
+        phone: String(fd.get('phone') ?? ''),
+        instagram: String(fd.get('instagram') ?? ''),
+        participation,
+        level: participation === 'tournament_after' ? ((fd.get('level') as FppLevel | null) || null) : null,
+        consent: fd.get('consent') === 'on',
+        gotcha: String(fd.get('company') ?? ''),
+      };
+    };
+
+    const show = (errors: Partial<Record<FieldKey, string>>, only?: Set<FieldKey>) => {
+      for (const k of order) {
+        if (only && !only.has(k)) continue;
+        const msg = errors[k] ?? '';
+        fields[k].err.textContent = msg;
+        fields[k].inputs.forEach((el) => (msg ? el.setAttribute('aria-invalid', 'true') : el.removeAttribute('aria-invalid')));
+      }
+    };
+
+    const sync = () => {
+      const playing = read().participation === 'tournament_after';
       level.hidden = !playing;
       levelSelect.required = playing; // required only for Tournament + After Padel
+      if (!playing) show({}, new Set<FieldKey>(['level']));
     };
     form.addEventListener('change', sync);
     sync();
 
-    // No registration backend yet (Stage 4). Never fake success and never send data:
-    // show the "opens very soon" notice with the Telegram link instead.
-    const notice = form.querySelector<HTMLElement>('[data-not-ready]')!;
-    form.addEventListener('submit', (e) => {
+    // inline validation on blur (only fields the person has visited)
+    form.addEventListener('focusout', (e) => {
+      const k = order.find((key) => fields[key].inputs.includes(e.target as HTMLElement));
+      if (!k) return;
+      touched.add(k);
+      show(validate(read()), touched);
+    });
+
+    const setSubmitting = (on: boolean) => {
+      submitBtn.disabled = on;
+      submitBtn.setAttribute('aria-busy', String(on));
+      submitLabel.textContent = on ? r.submitting : r.submit;
+    };
+
+    const showAlert = (title: string, text: string) => {
+      alertBox.querySelector('[data-alert-title]')!.textContent = title;
+      alertBox.querySelector('[data-alert-text]')!.textContent = text;
+      alertBox.hidden = false;
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      notice.hidden = false;
-      notice.focus();
+      alertBox.hidden = true;
+      const data = read();
+      const errors = validate(data);
+      order.forEach((k) => touched.add(k));
+      show(errors);
+      const first = order.find((k) => errors[k]);
+      if (first) {
+        status.textContent = r.checkFields;
+        fields[first].focus.focus();
+        return;
+      }
+
+      setSubmitting(true);
+      status.textContent = r.submitting;
+      const result = await submitRegistration(data);
+      setSubmitting(false);
+
+      if (result.status === 'success' || result.status === 'duplicate') {
+        const panel = reg.querySelector<HTMLElement>(`[data-result="${result.status}"]`)!;
+        form.hidden = true;
+        panel.hidden = false;
+        status.textContent = '';
+        panel.focus();
+        return;
+      }
+
+      // error: keep everything the person typed, let them retry
+      const copy = result.reason === 'unavailable' ? r.unavailable : r.error;
+      showAlert(copy.title, copy.text);
+      status.textContent = `${copy.title} ${copy.text}`;
+      submitBtn.focus();
     });
   }
 </script>
@@ -283,18 +396,29 @@ const f = r.fields;
   .consent a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
 
   .reg__submit { width: 100%; margin-top: 0.25rem; }
-  .reg__notice {
+  .reg__alert {
     display: grid;
-    gap: 0.6rem;
-    justify-items: start;
-    padding: 1rem 1.1rem;
-    border: 1px solid var(--amber);
-    background: rgb(238 138 30 / 0.08);
-    font-size: 0.95rem;
-    outline: none;
+    gap: 0.25rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid #a4260e;
+    background: rgb(164 38 14 / 0.05);
+    color: #7d1d0b;
+    font-size: 0.92rem;
   }
-  .reg__notice[hidden] { display: none; }
-  .reg__notice:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .reg__alert[hidden] { display: none; }
+  .reg__form[hidden] { display: none; }
+  .reg__alert-title { font-weight: 600; }
+  .reg__submit[disabled] { cursor: progress; }
+
+  .reg__result { display: grid; gap: var(--s-4); outline: none; }
+  .reg__result[hidden] { display: none; }
+  .reg__result:focus-visible { outline: 2px solid var(--amber); outline-offset: 6px; }
+  .reg__result-title { font-size: 1.4rem; letter-spacing: 0.08em; }
+  .reg__result-text { color: var(--ink-soft); }
+  .reg__facts { display: grid; gap: 0.5rem; margin: var(--s-3) 0 0; padding-top: var(--s-4); border-top: 1px solid var(--ivory-line); font-size: 0.95rem; }
+  .reg__facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.75rem; }
+  .reg__facts dt { color: var(--ink-soft); }
+  .reg__facts dd { margin: 0; font-weight: 500; }
 
   @media (min-width: 560px) {
     .reg__row { grid-template-columns: 1fr 1fr; }

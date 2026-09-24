@@ -217,12 +217,9 @@ export const registration = {
   success: { title: 'You’re on the list.', text: 'Thanks for joining Padel Social. We’ll be in touch with the details.' },
   duplicate: { title: 'You’re already on the list.', text: 'We already have a registration with this email. See you on court.' },
   error: { title: 'Something went wrong.', text: 'Your details are still here. Please try again.', retry: 'Try again' },
-  // Shown on submit while no registration backend is connected (preview deploy) — nothing is sent
-  notReady: {
-    text: 'Registration opens very soon — message us on Telegram to save your spot.',
-    linkLabel: 'Message us on Telegram',
-    href: CONTACT_TELEGRAM_URL,
-  },
+  // registration channel not configured in production (no PUBLIC_FORMSPREE_ID)
+  unavailable: { title: 'Something went wrong.', text: 'Please try again later.' },
+  checkFields: 'Please check the highlighted fields.',
 };
 
 /* ---- 09 FAQ ------------------------------------------------------------- */
