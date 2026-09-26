@@ -13,7 +13,6 @@ import logo from '../assets/brand/logo.png';
     </a>
 
     <div class="nav__end">
-      <span class="nav__city">{nav.cityLabel}</span>
       <a class="btn btn--sm nav__cta" href={links.register} data-join>
         <span>{nav.cta.lead}<span class="nav__cta-rest">{nav.cta.rest}</span></span>
         <Icon name="arrow" size={18} class="arrow" />
@@ -73,7 +72,6 @@ import logo from '../assets/brand/logo.png';
   }
 
   .nav__end { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2.25rem); flex: none; }
-  .nav__city { display: none; font-size: 0.95rem; }
 
   /* below 480px only "Join →" fits next to the logo; the rest stays in the accessible name */
   @media (max-width: 479px) {
@@ -83,8 +81,5 @@ import logo from '../assets/brand/logo.png';
       overflow: hidden; clip: rect(0 0 0 0);
       white-space: nowrap;
     }
-  }
-  @media (min-width: 1024px) {
-    .nav__city { display: block; }
   }
 </style>

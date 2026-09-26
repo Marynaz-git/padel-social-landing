@@ -92,7 +92,30 @@ const tiles: { slot: PhotoKey; cls: string; sizes: string }[] = [
       gap: 1rem;
       overflow: visible;
     }
-    .atmo__tile { aspect-ratio: auto; }
+    .atmo__tile { aspect-ratio: auto; position: relative; }
+    /* warm-dark tint on every photo + a deeper band behind the headline (AA for cream/amber text) */
+    .atmo__tile::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgb(27 22 19 / 0.18);
+      pointer-events: none;
+    }
+    .atmo__stage::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgb(27 22 19 / 0) 22%,
+        rgb(27 22 19 / 0.72) 38%,
+        rgb(27 22 19 / 0.8) 52%,
+        rgb(27 22 19 / 0.72) 66%,
+        rgb(27 22 19 / 0) 84%
+      );
+    }
     /* 4 photos, asymmetric campaign collage */
     .t-courts  { grid-column: 1 / 7;  grid-row: 1 / 7; }
     .t-dj      { grid-column: 7 / 10; grid-row: 1 / 9; }
@@ -109,6 +132,7 @@ const tiles: { slot: PhotoKey; cls: string; sizes: string }[] = [
       max-width: var(--container);
       text-align: center;
       pointer-events: none;
+      z-index: 2;
       mix-blend-mode: normal;
       text-shadow: 0 2px 40px rgb(27 22 19 / 0.45);
     }

@@ -1,8 +1,10 @@
 ---
 import { mainCta, registration as r, event, links } from '../content/site';
+import { PINNED_COUNTRIES, OTHER_COUNTRIES, COUNTRY_BY_ISO, DEFAULT_ISO } from '../content/countries';
 import Photo from '../components/Photo.astro';
 import Icon from '../components/Icon.astro';
 const f = r.fields;
+const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
 ---
 
 <section class="cta on-accent" id="join" aria-labelledby="cta-title">
@@ -30,31 +32,64 @@ const f = r.fields;
           <p class="field__err" id="e-name"></p>
         </div>
 
-        <div class="field">
-          <label for="f-email">{f.email}</label>
-          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email" />
-          <p class="field__err" id="e-email"></p>
-        </div>
+        <fieldset class="field phone" aria-describedby="e-country e-phone">
+          <legend>{f.phone}</legend>
+          <div class="phone__row">
+            <div class="phone__cc">
+              <label class="phone__sublabel" for="f-cc">{f.phoneCountry}</label>
+              <div class="select phone__select">
+                <span class="phone__display" aria-hidden="true" data-cc-display>
+                  <span class="flag">{defaultCountry.flag}</span> +{defaultCountry.dial}
+                </span>
+                <select id="f-cc" name="phone_country" required autocomplete="tel-country-code" aria-describedby="e-country">
+                  <optgroup label={f.phonePinnedGroup}>
+                    {PINNED_COUNTRIES.map((c) => (
+                      <option value={c.iso} data-flag={c.flag} data-dial={c.dial} selected={c.iso === DEFAULT_ISO}>{c.flag} {c.name} (+{c.dial})</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label={f.phoneAllGroup}>
+                    {OTHER_COUNTRIES.map((c) => (
+                      <option value={c.iso} data-flag={c.flag} data-dial={c.dial}>{c.flag} {c.name} (+{c.dial})</option>
+                    ))}
+                  </optgroup>
+                </select>
+                <svg class="select__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" /></svg>
+              </div>
+            </div>
+            <div class="phone__num">
+              <label class="phone__sublabel" for="f-phone">{f.phoneNumber}</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" required aria-describedby="e-phone" placeholder="912 345 678" />
+            </div>
+          </div>
+          <p class="field__err" id="e-country"></p>
+          <p class="field__err" id="e-phone"></p>
+        </fieldset>
 
-        <div class="reg__row">
-          <div class="field">
-            <label for="f-phone">{f.phone} <span class="opt">({f.optional})</span></label>
-            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="e-phone" />
-            <p class="field__err" id="e-phone"></p>
+        <fieldset class="field choice" aria-describedby="e-contact">
+          <legend>{f.contactVia}</legend>
+          <div class="choice__opts">
+            {f.contactOptions.map((o) => (
+              <label class="opt-box">
+                <input type="radio" name="contact_via" value={o.value} required />
+                <span>{o.label}</span>
+              </label>
+            ))}
           </div>
-          <div class="field">
-            <label for="f-ig">{f.instagram} <span class="opt">({f.optional})</span></label>
-            <input id="f-ig" name="instagram" type="text" autocomplete="off" placeholder="@" />
-          </div>
+          <p class="field__err" id="e-contact"></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-ig">{f.instagram} <span class="opt">({f.optional})</span></label>
+          <input id="f-ig" name="instagram" type="text" autocomplete="off" placeholder="@" />
         </div>
 
         <fieldset class="field choice" aria-describedby="e-part">
           <legend>{f.participation}</legend>
-          <div class="choice__opts">
+          <div class="choice__opts choice__opts--price">
             {f.participationOptions.map((o, i) => (
               <label class="opt-box">
                 <input type="radio" name="participation" value={o.value} required checked={i === 0} />
-                <span>{o.label}</span>
+                <span><span class="opt-box__label">{o.label}</span><span class="opt-box__price">{o.price}</span></span>
               </label>
             ))}
           </div>
@@ -113,7 +148,7 @@ const f = r.fields;
       {(['success', 'duplicate'] as const).map((k) => (
         <div class="reg__result" hidden tabindex="-1" data-result={k}>
           <p class="caps reg__result-title">{r[k].title}</p>
-          <p class="reg__result-text">{r[k].text}</p>
+          <p class="reg__result-text" data-result-text data-template={r[k].text}>{r[k].text.replace('{app}', 'Telegram or WhatsApp')}</p>
           <dl class="reg__facts">
             <div><dt>Date</dt><dd>{event.dayLabel}, {event.dateLabel}</dd></div>
             <div><dt>Venue</dt><dd>{event.venue}, {event.city}</dd></div>
@@ -128,9 +163,9 @@ const f = r.fields;
 </section>
 
 <script>
-  import { validate, submitRegistration, type RegistrationData, type FieldKey, type Participation } from '../lib/registration';
+  import { validate, submitRegistration, contactLabel, type RegistrationData, type FieldKey, type Participation } from '../lib/registration';
   import { registration as r } from '../content/site';
-  import type { FppLevel } from '../content/site';
+  import type { FppLevel, ContactVia } from '../content/site';
 
   const form = document.querySelector<HTMLFormElement>('[data-reg-form]');
   if (form) {
@@ -145,8 +180,13 @@ const f = r.fields;
     // field → [focus target, inputs that get aria-invalid, error element]
     const fields: Record<FieldKey, { focus: HTMLElement; inputs: HTMLElement[]; err: HTMLElement }> = {
       fullName: { focus: form.querySelector('#f-name')!, inputs: [form.querySelector('#f-name')!], err: form.querySelector('#e-name')! },
-      email: { focus: form.querySelector('#f-email')!, inputs: [form.querySelector('#f-email')!], err: form.querySelector('#e-email')! },
+      country: { focus: form.querySelector('#f-cc')!, inputs: [form.querySelector('#f-cc')!], err: form.querySelector('#e-country')! },
       phone: { focus: form.querySelector('#f-phone')!, inputs: [form.querySelector('#f-phone')!], err: form.querySelector('#e-phone')! },
+      contactVia: {
+        focus: form.querySelector('input[name="contact_via"]')!,
+        inputs: [...form.querySelectorAll<HTMLElement>('input[name="contact_via"]')],
+        err: form.querySelector('#e-contact')!,
+      },
       participation: {
         focus: form.querySelector('input[name="participation"]')!,
         inputs: [...form.querySelectorAll<HTMLElement>('input[name="participation"]')],
@@ -159,7 +199,7 @@ const f = r.fields;
         err: form.querySelector('#e-consent')!,
       },
     };
-    const order: FieldKey[] = ['fullName', 'email', 'phone', 'participation', 'level', 'consent'];
+    const order: FieldKey[] = ['fullName', 'country', 'phone', 'contactVia', 'participation', 'level', 'consent'];
     const touched = new Set<FieldKey>();
 
     const read = (): RegistrationData => {
@@ -167,8 +207,9 @@ const f = r.fields;
       const participation = String(fd.get('participation') ?? '') as Participation;
       return {
         fullName: String(fd.get('full_name') ?? ''),
-        email: String(fd.get('email') ?? ''),
-        phone: String(fd.get('phone') ?? ''),
+        phoneCountry: String(fd.get('phone_country') ?? ''),
+        phoneNumber: String(fd.get('phone') ?? ''),
+        contactVia: String(fd.get('contact_via') ?? '') as ContactVia | '',
         instagram: String(fd.get('instagram') ?? ''),
         participation,
         level: participation === 'tournament_after' ? ((fd.get('level') as FppLevel | null) || null) : null,
@@ -194,6 +235,21 @@ const f = r.fields;
     };
     form.addEventListener('change', sync);
     sync();
+
+    // closed state of the country select shows "🇵🇹 +351"
+    const cc = form.querySelector<HTMLSelectElement>('#f-cc')!;
+    const ccDisplay = form.querySelector<HTMLElement>('[data-cc-display]')!;
+    const syncCountry = () => {
+      const opt = cc.selectedOptions[0];
+      ccDisplay.innerHTML = '';
+      if (!opt || !opt.value) return;
+      const flag = document.createElement('span');
+      flag.className = 'flag';
+      flag.textContent = opt.dataset.flag ?? '';
+      ccDisplay.append(flag, ` +${opt.dataset.dial ?? ''}`);
+    };
+    cc.addEventListener('change', syncCountry);
+    syncCountry();
 
     // inline validation on blur (only fields the person has visited)
     form.addEventListener('focusout', (e) => {
@@ -236,6 +292,8 @@ const f = r.fields;
 
       if (result.status === 'success' || result.status === 'duplicate') {
         const panel = reg.querySelector<HTMLElement>(`[data-result="${result.status}"]`)!;
+        const text = panel.querySelector<HTMLElement>('[data-result-text]');
+        if (text) text.textContent = text.dataset.template!.replace('{app}', contactLabel(data.contactVia));
         form.hidden = true;
         panel.hidden = false;
         status.textContent = '';
@@ -294,7 +352,6 @@ const f = r.fields;
   .reg__intro { margin-top: 0.4rem; color: var(--ink-soft); font-size: 0.95rem; }
 
   .reg__form { display: grid; gap: 1.35rem; }
-  .reg__row { display: grid; gap: 1.35rem; }
 
   .field { display: grid; gap: 0.35rem; border: 0; padding: 0; margin: 0; min-width: 0; }
   .field[hidden] { display: none; }
@@ -309,7 +366,6 @@ const f = r.fields;
   .opt { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-soft); }
 
   .field input[type='text'],
-  .field input[type='email'],
   .field input[type='tel'] {
     width: 100%;
     height: 3rem;
@@ -327,7 +383,45 @@ const f = r.fields;
   .field__err { font-size: 0.82rem; color: #a4260e; min-height: 0; }
   .field__err:empty { display: none; }
 
-  .choice__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  /* equal columns, equal heights */
+  .choice__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 0.5rem; }
+  .opt-box__label, .opt-box__price { display: block; }
+  .opt-box__price { margin-top: 0.2rem; font-weight: 600; }
+
+  /* phone: country code + national number */
+  .phone__row { display: grid; grid-template-columns: minmax(7.25rem, 8.5rem) minmax(0, 1fr); gap: 0.75rem; align-items: end; }
+  .phone__sublabel { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 0.3rem; }
+  /* the native select stays on top (invisible) for mouse, keyboard and screen readers;
+     the box underneath shows the closed state as "🇵🇹 +351" */
+  .select.phone__select {
+    height: 3rem;
+    border: 1px solid var(--field-box);
+    transition: border-color var(--dur-fast);
+  }
+  .select.phone__select:hover { border-color: var(--ink); }
+  .select.phone__select:has(select:focus-visible) { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--ink); }
+  .select.phone__select:has(select[aria-invalid='true']) { border-color: #a4260e; }
+  .select.phone__select > select {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    opacity: 0;
+    border: 0;
+  }
+  .select.phone__select > select:focus-visible { outline: none; }
+  .phone__select select, .flag { font-family: 'Twemoji Country Flags', var(--font-sans); }
+  .phone__display {
+    position: absolute;
+    inset: 0 2.2rem 0 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .phone__display .flag { font-size: 1.15rem; line-height: 1; }
+  .phone__num input { width: 100%; }
   /* level select: flat, thin border, custom chevron */
   .select { position: relative; }
   .select select {
@@ -351,10 +445,12 @@ const f = r.fields;
   .select select[aria-invalid='true'] { border-color: #a4260e; }
   .select__chevron { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink); }
   .field__help { font-size: 0.8rem; color: var(--ink-soft); }
-  .opt-box { position: relative; display: block; cursor: pointer; }
+  .opt-box { position: relative; display: flex; cursor: pointer; }
   .opt-box input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-  .opt-box span {
+  .opt-box > span {
+    flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 3rem;
@@ -365,7 +461,7 @@ const f = r.fields;
     line-height: 1.2;
     transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
   }
-  .opt-box:hover span { border-color: var(--ink); }
+  .opt-box:hover > span { border-color: var(--ink); }
   .opt-box input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--cream); }
   .opt-box input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
 
@@ -421,7 +517,6 @@ const f = r.fields;
   .reg__facts dd { margin: 0; font-weight: 500; }
 
   @media (min-width: 560px) {
-    .reg__row { grid-template-columns: 1fr 1fr; }
   }
   @media (min-width: 1024px) {
     .cta__grid {

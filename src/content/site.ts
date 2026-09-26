@@ -88,7 +88,6 @@ export const seo = {
 /* ---- Header ------------------------------------------------------------- */
 export const nav = {
   wordmark: 'Play Padel Club',
-  cityLabel: 'Lisbon',
   cta: { lead: 'Join', rest: ' the event' }, // "Join the event"; below 480px only "Join" shows (rest stays for screen readers)
 };
 
@@ -111,7 +110,6 @@ export const hero = {
       { num: '02', title: 'Drinks & DJ', text: 'Good music, better people' },
       { num: '03', title: 'Community', text: 'A club for players, by players' },
     ],
-    tagline: ['Join the event', 'It’s a people thing'],
   },
 };
 
@@ -179,18 +177,28 @@ export const mainCta = {
   cta: 'Join Padel Social',
 };
 
+export type ContactVia = 'telegram' | 'whatsapp';
+
 export const registration = {
   title: 'Register',
-  intro: 'Leave your details and we’ll confirm your spot.', // DRAFT — review
+  intro: 'Leave your details and we’ll confirm your spot on Telegram or WhatsApp.',
   fields: {
     fullName: 'Full name',
-    email: 'Email',
     phone: 'Phone',
+    phoneCountry: 'Country code',
+    phoneNumber: 'Phone number',
+    phonePinnedGroup: 'Popular',
+    phoneAllGroup: 'All countries',
+    contactVia: 'Contact me via',
+    contactOptions: [
+      { value: 'telegram' as ContactVia, label: 'Telegram' },
+      { value: 'whatsapp' as ContactVia, label: 'WhatsApp' },
+    ],
     instagram: 'Instagram handle',
     participation: 'Participation',
     participationOptions: [
-      { value: 'tournament_after', label: `Tournament + After Padel — ${prices.symbol}${prices.tournamentAfter}` },
-      { value: 'after_only', label: `After Padel only — ${prices.symbol}${prices.afterOnly}` },
+      { value: 'tournament_after', label: 'Tournament + After Padel', price: `${prices.symbol}${prices.tournamentAfter}` },
+      { value: 'after_only', label: 'After Padel only', price: `${prices.symbol}${prices.afterOnly}` },
     ],
     level: 'Playing level',
     levelHelp: 'FPP level — 1 is the highest, 6 is entry level.',
@@ -209,13 +217,15 @@ export const registration = {
   // DRAFT — review all messages below
   errors: {
     required: 'This field is required.',
-    email: 'Please enter a valid email address.',
-    phone: 'Please enter a valid phone number.',
+    country: 'Please choose your country code.',
+    phone: 'Please enter a valid phone number (6–14 digits).',
+    contactVia: 'Please choose Telegram or WhatsApp.',
     level: 'Please choose your playing level.',
     consent: 'Please agree so we can process your registration.',
   },
-  success: { title: 'You’re on the list.', text: 'Thanks for joining Padel Social. We’ll be in touch with the details.' },
-  duplicate: { title: 'You’re already on the list.', text: 'We already have a registration with this email. See you on court.' },
+  // {app} is replaced with Telegram / WhatsApp
+  success: { title: 'You’re on the list.', text: 'Thanks for joining Padel Social. We’ll confirm your spot on {app}.' },
+  duplicate: { title: 'You’re already on the list.', text: 'We already have a registration with this phone number. See you on court.' },
   error: { title: 'Something went wrong.', text: 'Your details are still here. Please try again.', retry: 'Try again' },
   // registration channel not configured in production (no PUBLIC_FORMSPREE_ID)
   unavailable: { title: 'Something went wrong.', text: 'Please try again later.' },
@@ -223,7 +233,9 @@ export const registration = {
 };
 
 /* ---- 09 FAQ ------------------------------------------------------------- */
-export const faq = {
+export type FaqItem = { q: string; a: string | string[]; lead?: string };
+
+export const faq: { title: string; items: FaqItem[] } = {
   title: 'FAQ',
   items: [
     {
@@ -232,7 +244,7 @@ export const faq = {
     },
     {
       q: 'What level do I need to play?',
-      a: 'Every level is welcome. Choose your level when you register so we can set up friendly, balanced matches.', // DRAFT — review
+      a: 'All levels are welcome — you just need at least 2 months of regular play. Choose your level when you register so we can set up friendly, balanced matches.',
     },
     {
       q: 'Can I come only for After Padel?',
@@ -240,7 +252,13 @@ export const faq = {
     },
     {
       q: 'What’s included in the ticket?',
-      a: `Tournament + After Padel — ${prices.symbol}${prices.tournamentAfter}: tournament matches from 15:00 and After Padel with drinks and DJ until 21:00. After Padel only — ${prices.symbol}${prices.afterOnly}: join us from 17:00 for drinks, DJ and the social evening. Payment details are sent with your registration confirmation.`, // DRAFT — review
+      // first paragraph is shown emphasised
+      lead: 'Both tickets include free drinks from 17:00.',
+      a: [
+        `Tournament + After Padel — ${prices.symbol}${prices.tournamentAfter}: tournament matches from 15:00, then After Padel with free drinks and DJ from 17:00 to 21:00.`,
+        `After Padel only — ${prices.symbol}${prices.afterOnly}: join us from 17:00 for free drinks, DJ and the social evening.`,
+        'Payment details are sent with your registration confirmation.',
+      ],
     },
     {
       q: 'What should I bring?',

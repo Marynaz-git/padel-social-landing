@@ -1,0 +1,4 @@
+TwemojiCountryFlags.woff2
+Flag glyphs: Twemoji by Twitter, Inc and other contributors, CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+Font build: country-flag-emoji-polyfill by Talkjs, MIT.
+Used only for flag emoji (unicode-range limited), so every platform (incl. Windows) shows real flags.

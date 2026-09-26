@@ -14,7 +14,10 @@ import Icon from '../components/Icon.astro';
             <span class="faq__q serif">{it.q}</span>
             <span class="faq__icon" aria-hidden="true"><Icon name="plus" size={20} /></span>
           </summary>
-          <div class="faq__a"><p>{it.a}</p></div>
+          <div class="faq__a">
+            {it.lead && <p class="faq__lead">{it.lead}</p>}
+            {(Array.isArray(it.a) ? it.a : [it.a]).map((p) => <p>{p}</p>)}
+          </div>
         </details>
       ))}
     </div>
@@ -54,7 +57,11 @@ import Icon from '../components/Icon.astro';
     transition: transform var(--dur-med) var(--ease-out);
   }
   .faq__item[open] .faq__icon { transform: rotate(45deg); }
-  .faq__a { padding: 0 3.5rem 1.75rem 0; color: var(--ink-soft); max-width: 42rem; }
+  .faq__a { padding: 0 3.5rem 1.75rem 0; color: var(--ink-soft); max-width: 42rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .faq__lead { font-weight: 600; color: var(--amber-ink); }
 
   @media (min-width: 900px) {
     .faq__grid { grid-template-columns: repeat(12, 1fr); column-gap: var(--col-gap); }

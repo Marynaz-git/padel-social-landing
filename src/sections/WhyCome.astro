@@ -15,8 +15,8 @@ import Photo from '../components/Photo.astro';
           </div>
           <div class="why__text">
             <span class="num why__num" aria-hidden="true">{c.num}</span>
-            <h3 class="caps why__title">{c.title}</h3>
-            <p class="serif why__quote">
+            <h3 class="why__title">{c.title}</h3>
+            <p class="why__quote">
               {c.text.map((t) => <span>{t} </span>)}
             </p>
           </div>
@@ -44,12 +44,22 @@ import Photo from '../components/Photo.astro';
     border-top: 1px solid var(--ivory-line);
   }
   .why__num { grid-row: span 2; font-size: 2.6rem; color: var(--amber-ink); }
-  .why__title { font-size: 0.95rem; letter-spacing: 0.16em; padding-top: 0.5rem; }
+  /* titles + descriptions in the UI sans for readability; numbers stay italic serif */
+  .why__title {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding-top: 0.55rem;
+  }
   .why__quote {
     grid-column: 2;
-    font-size: clamp(1.45rem, 1.1rem + 1.1vw, 2.1rem);
-    line-height: 1.12;
-    font-weight: 450;
+    font-family: var(--font-sans);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 24em;
   }
 
   @media (min-width: 900px) {

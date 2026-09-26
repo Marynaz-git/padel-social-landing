@@ -76,13 +76,6 @@ const [t1, t2] = event.schedule;
           </li>
         ))}
       </ol>
-      <a class="strip__more" href={links.register} data-join>
-        <span class="strip__circle" aria-hidden="true"><Icon name="arrow-down" size={22} class="strip__arrow" /></span>
-        <span class="label strip__tag">
-          <span>{hero.strip.tagline[0]}</span>
-          <span>{hero.strip.tagline[1]}</span>
-        </span>
-      </a>
     </div>
   </div>
 </section>
@@ -188,34 +181,11 @@ const [t1, t2] = event.schedule;
     padding-block: 1rem;
     border-bottom: 1px solid var(--line-dark);
   }
+  .strip__list li:last-child { border-bottom: 0; }
   .strip__num { font-size: clamp(2.4rem, 1.8rem + 1.6vw, 3.4rem); color: var(--cream); min-width: 2.2ch; }
   .strip__title { font-size: 1.05rem; letter-spacing: 0.1em; }
   .strip__text { font-size: 0.9rem; color: var(--cream-soft); margin-top: 0.15rem; }
 
-  .strip__more { display: flex; align-items: center; gap: 1.5rem; }
-  .strip__circle {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 4rem;
-    height: 4rem;
-    border: 1px solid var(--amber);
-    border-radius: 50%;
-    color: var(--cream);
-    transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast);
-  }
-  .strip__more:hover .strip__circle,
-  .strip__more:focus-visible .strip__circle { background: var(--amber); color: var(--ink); }
-  .strip__circle :global(.strip__arrow) { transition: transform var(--dur-fast) var(--ease-out); }
-  .strip__more:hover :global(.strip__arrow),
-  .strip__more:focus-visible :global(.strip__arrow) { transform: translateY(3px); }
-  .strip__more:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
-  @media (prefers-reduced-motion: reduce) {
-    .strip__circle :global(.strip__arrow) { transition: none; }
-    .strip__more:hover :global(.strip__arrow),
-    .strip__more:focus-visible :global(.strip__arrow) { transform: none; }
-  }
-  .strip__tag { display: grid; gap: 0.7rem; font-size: 0.66rem; }
 
   /* ---------- Tablet ---------- */
   @media (min-width: 640px) {
@@ -250,7 +220,7 @@ const [t1, t2] = event.schedule;
 
     .strip { --strip-h: 8.5rem; }
     .strip__inner {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr;
       align-items: center;
       min-height: var(--strip-h);
       padding-block: 1.5rem;
@@ -264,7 +234,6 @@ const [t1, t2] = event.schedule;
       height: 3.25rem;
     }
     .strip__list li:first-child { border-left: 0; padding-left: 0; }
-    .strip__more { padding-left: 2.25rem; border-left: 1px solid var(--amber); height: 3.25rem; }
   }
   @media (min-width: 1024px) {
     .hero { --strip-h: 8.5rem; }

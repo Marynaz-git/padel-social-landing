@@ -34,8 +34,10 @@ import Icon from '../components/Icon.astro';
 <style>
   .loc { background: var(--ivory); padding-top: 0; }
   .loc__grid { display: grid; gap: var(--s-7); }
-  .loc__text { display: grid; gap: var(--s-4); align-content: start; }
-  .loc__title { margin-top: var(--s-3); font-size: clamp(2.8rem, 1.4rem + 4.6vw, 5.75rem); }
+  .loc__grid > * { min-width: 0; }
+  .loc__text { display: grid; gap: var(--s-4); align-content: start; container-type: inline-size; }
+  /* capped by its own column: "COUNTRY CLUB" ≈ 7.5em wide, so it never reaches the image */
+  .loc__title { margin-top: var(--s-3); font-size: min(clamp(2.8rem, 1.4rem + 4.6vw, 5.75rem), calc(100cqi / 7.7)); }
   .loc__city { font-size: clamp(2.2rem, 1.4rem + 3vw, 4.2rem); line-height: 1; }
   .loc__body { max-width: 22rem; margin-top: var(--s-4); color: var(--ink-soft); }
   .loc__link { justify-self: start; margin-top: var(--s-3); }
