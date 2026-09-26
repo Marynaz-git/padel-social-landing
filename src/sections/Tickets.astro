@@ -48,7 +48,6 @@ import Icon from '../components/Icon.astro';
 
           <a class="btn btn--dark btn--lg tix__btn" href={links.register} data-ticket={c.participation}>
             <span>{c.cta}</span>
-            <Icon name="arrow" size={18} class="arrow" />
           </a>
         </li>
       ))}
@@ -135,7 +134,6 @@ import Icon from '../components/Icon.astro';
   .tix__btn { width: 100%; margin-top: auto; }
   /* the long label may wrap on narrow cards instead of overflowing */
   .tix__btn > span { white-space: normal; text-align: center; }
-  .tix__btn :global(.arrow) { flex: none; }
   .tix__card > .tix__block:last-of-type { margin-bottom: var(--s-6); }
 
   /* ---------- Desktop ---------- */
