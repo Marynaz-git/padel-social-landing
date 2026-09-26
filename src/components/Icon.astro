@@ -1,7 +1,8 @@
 ---
 /** Thin line icons (1.25px stroke). Decorative by default. */
 interface Props {
-  name: 'arrow' | 'arrow-down' | 'arrow-up-right' | 'calendar' | 'pin' | 'clock' | 'plus';
+  name: 'arrow' | 'arrow-down' | 'arrow-up-right' | 'calendar' | 'pin' | 'clock' | 'plus'
+    | 'racket' | 'trophy' | 'gift' | 'music' | 'glass' | 'court' | 'camera' | 'people';
   size?: number;
   class?: string;
 }
@@ -49,4 +50,57 @@ const { name, size = 22, class: cls = 'icon' } = Astro.props;
     )
   }
   {name === 'plus' && <path d="M12 5v14M5 12h14" />}
+  {
+    name === 'racket' && (
+      <>
+        <path d="M12 2.5c3.6 0 6 2.7 6 6.2 0 3.7-2.6 7-6 7s-6-3.3-6-7c0-3.5 2.4-6.2 6-6.2ZM10.6 15.5v6h2.8v-6" />
+        <path d="M10 7h.01M14 7h.01M12 9.5h.01M10 12h.01M14 12h.01" stroke-width="2" />
+      </>
+    )
+  }
+  {name === 'trophy' && <path d="M8 4h8v5a4 4 0 0 1-8 0V4ZM8 6H5.5a2.5 2.5 0 0 0 2.8 3.9M16 6h2.5a2.5 2.5 0 0 1-2.8 3.9M12 13v4M9.5 17h5M8.5 20.5h7" />}
+  {
+    name === 'gift' && (
+      <>
+        <rect x="4" y="9" width="16" height="4" />
+        <path d="M5.5 13v7.5h13V13M12 9v11.5M12 9c-1.2-3.2-5.5-4-5.5-1.7C6.5 9 12 9 12 9Zm0 0c1.2-3.2 5.5-4 5.5-1.7C17.5 9 12 9 12 9Z" />
+      </>
+    )
+  }
+  {
+    name === 'music' && (
+      <>
+        <path d="M9 17.5V6l10-2v11.5" />
+        <circle cx="7" cy="17.5" r="2" />
+        <circle cx="17" cy="15.5" r="2" />
+      </>
+    )
+  }
+  {name === 'glass' && <path d="M6.5 4h11L16 20.5H8L6.5 4ZM7.2 9.5h9.6" />}
+  {
+    name === 'court' && (
+      <>
+        <rect x="3" y="6" width="18" height="12" />
+        <path d="M12 4.5v15M7.5 6v12M16.5 6v12M7.5 12h9" />
+      </>
+    )
+  }
+  {
+    name === 'camera' && (
+      <>
+        <path d="M4.5 7.5h3L9 5h6l1.5 2.5h3a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z" />
+        <circle cx="12" cy="13.5" r="3.5" />
+      </>
+    )
+  }
+  {
+    name === 'people' && (
+      <>
+        <circle cx="9" cy="8.5" r="3" />
+        <path d="M3.5 19.5a5.5 5.5 0 0 1 11 0" />
+        <circle cx="16.5" cy="9.5" r="2.5" />
+        <path d="M15.2 14.1a4.5 4.5 0 0 1 5.3 4.4" />
+      </>
+    )
+  }
 </svg>

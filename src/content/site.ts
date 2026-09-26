@@ -169,31 +169,45 @@ export const location = {
   text: 'A premium padel setting for a day of sport, music and connection.',
 };
 
-/* ---- 07b Tickets (between Location and the registration CTA) ------------ */
+/* ---- 07b Tickets (directly before the registration CTA) ---------------- */
 export const tickets = {
-  label: 'TICKETS',
-  headline: { lines: ['TWO WAYS'], accentLine: ['TO ', 'JOIN.'] },
+  label: '04 · CHOOSE YOUR EXPERIENCE',
+  headline: { line1: 'ONE EVENT.', accent: 'TWO', rest: ' WAYS TO JOIN.' },
+  intro: 'Play from 15:00 or join the party from 17:00. Either way, you’re part of Padel Social.',
+  aside: ['SPORT', 'MUSIC', 'DRINKS', 'OPEN COURTS', 'PEOPLE'],
   cards: [
     {
       num: '01',
-      title: 'TOURNAMENT + AFTER PADEL',
+      title: ['TOURNAMENT', '+ AFTER PADEL'],
       price: `${prices.symbol}${prices.tournamentAfter}`,
-      time: '15:00 – 21:00',
+      time: '15:00 — 21:00',
+      text: 'Play in the tournament, compete for prizes and stay for the full After Padel experience.',
+      sub: { label: 'TOURNAMENT', time: '15:00 – 17:00' },
       items: [
-        'Winners Court tournament, all levels',
-        'Minimum 2 months of regular play',
-        'Free drinks from 17:00',
-        'DJ & After Padel until 21:00',
+        { icon: 'racket', text: 'Tournament entry' },
+        { icon: 'trophy', text: 'Awards for tournament winners' },
+        { icon: 'gift', text: 'Gift giveaway for participants' },
       ],
-      cta: 'Join the tournament',
+      plus: { label: 'PLUS EVERYTHING IN AFTER PADEL', time: '17:00 — 21:00' },
+      cta: 'Join Tournament + After Padel',
       participation: 'tournament_after',
     },
     {
       num: '02',
-      title: 'AFTER PADEL ONLY',
+      title: ['AFTER PADEL', 'ONLY'],
       price: `${prices.symbol}${prices.afterOnly}`,
-      time: '17:00 – 21:00',
-      items: ['Free drinks from 17:00', 'DJ & open-air social evening', 'Meet the players after the matches'],
+      time: '17:00 — 21:00',
+      text: 'Join the main evening part — music, drinks, open courts and great people.',
+      sub: { label: 'YOUR AFTER PADEL EXPERIENCE', time: '17:00 – 21:00' },
+      items: [
+        { icon: 'music', text: 'DJ sets — 4 hours of music' },
+        { icon: 'glass', text: 'Unlimited open bar — beer, cider, soft drinks, water' },
+        { icon: 'court', text: 'Open courts — play as much as you want' },
+        { icon: 'camera', text: 'Professional event photos' },
+        { icon: 'people', text: 'Great atmosphere and new connections' },
+        { icon: 'gift', text: 'Prize giveaways for all participants' },
+      ],
+      plus: null,
       cta: 'Join After Padel',
       participation: 'after_only',
     },
@@ -279,13 +293,13 @@ export const faq: { title: string; items: FaqItem[] } = {
     },
     {
       q: 'What’s included in the ticket?',
-      // first paragraph is shown emphasised
-      lead: 'Both tickets include free drinks from 17:00.',
+      // first paragraph is shown emphasised — DRAFT — review
+      lead: 'Both tickets include the After Padel evening, 17:00–21:00: unlimited open bar, DJ sets, open courts, professional event photos and prize giveaways.',
       a: [
-        `Tournament + After Padel — ${prices.symbol}${prices.tournamentAfter}: tournament matches from 15:00, then After Padel with free drinks and DJ from 17:00 to 21:00.`,
-        `After Padel only — ${prices.symbol}${prices.afterOnly}: join us from 17:00 for free drinks, DJ and the social evening.`,
+        `Tournament + After Padel — ${prices.symbol}${prices.tournamentAfter}: the tournament from 15:00 to 17:00 with awards for the winners and a gift giveaway for participants, then the full After Padel evening.`,
+        `After Padel only — ${prices.symbol}${prices.afterOnly}: join us from 17:00 for the open bar, music, open courts and the social evening.`,
         'Payment details are sent with your registration confirmation.',
-      ],
+      ], // DRAFT — review
     },
     {
       q: 'What should I bring?',
