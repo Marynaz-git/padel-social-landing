@@ -1,0 +1,106 @@
+---
+import { tickets, links } from '../content/site';
+import Icon from '../components/Icon.astro';
+---
+
+<section class="tix section" id="tickets" aria-labelledby="tix-title">
+  <div class="container">
+    <p class="label label--accent tix__label">{tickets.label}</p>
+
+    <h2 id="tix-title" class="h2 lines tix__title">
+      {tickets.headline.lines.map((l) => <span>{l}</span>)}
+      <span>{tickets.headline.accentLine[0]}<span class="accent">{tickets.headline.accentLine[1]}</span></span>
+    </h2>
+
+    <ul class="tix__cards">
+      {tickets.cards.map((c) => (
+        <li class="tix__card">
+          <span class="ruled-cols__mark" aria-hidden="true">{c.num}</span>
+          <h3 class="caps tix__name">{c.title}</h3>
+          <p class="tix__meta">
+            <span class="num tix__price">{c.price}</span>
+            <span class="tix__time">{c.time}</span>
+          </p>
+          <ul class="tix__items">
+            {c.items.map((it) => <li>{it}</li>)}
+          </ul>
+          <a class="btn btn--dark btn--lg tix__btn" href={links.register} data-ticket={c.participation}>
+            {c.cta}
+            <Icon name="arrow" class="arrow" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Ticket buttons: preselect the matching Participation option, scroll to the
+  // form and focus its first field. Without JS they are plain #register links.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLAnchorElement>('[data-ticket]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const form = document.querySelector<HTMLFormElement>('[data-reg-form]');
+      const target = document.querySelector<HTMLElement>(a.hash);
+      const radio = form?.querySelector<HTMLInputElement>(`input[name="participation"][value="${a.dataset.ticket}"]`);
+      if (!form || !target || !radio) return; // fall back to the plain link
+      e.preventDefault();
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true })); // form shows/hides Playing level
+      target.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+      history.pushState(null, '', a.hash);
+      form.querySelector<HTMLElement>('input, select, textarea')?.focus({ preventScroll: true });
+    });
+  });
+</script>
+
+<style>
+  .tix { background: var(--ivory); }
+  .tix__label { margin-bottom: var(--s-6); }
+  /* same size as the Who It's For headline */
+  .tix__title { font-size: clamp(2.3rem, 0.9rem + 5.8vw, 7.5rem); }
+
+  .tix__cards {
+    display: grid;
+    gap: var(--s-5);
+    margin-top: clamp(3rem, 2rem + 5vw, 7rem);
+  }
+  .tix__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-6) var(--s-5);
+    border: 1px solid var(--ivory-line);
+  }
+  .tix__name { font-size: 0.95rem; letter-spacing: 0.16em; }
+  .tix__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-3) var(--s-5);
+    padding-bottom: var(--s-5);
+    border-bottom: 1px solid var(--ivory-line);
+  }
+  .tix__price { font-size: clamp(3rem, 2rem + 3vw, 5.5rem); }
+  .tix__time {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+  }
+  .tix__items { display: grid; gap: 0.45rem; font-size: 1rem; color: var(--ink-soft); }
+  .tix__items li { padding-left: 1.7em; text-indent: -1.7em; } /* wrapped lines align with the text, not the dash */
+  .tix__items li::before { content: '—'; color: var(--amber); margin-right: 0.7em; }
+  .tix__btn { align-self: flex-start; margin-top: auto; }
+  .tix__items { margin-bottom: var(--s-5); }
+
+  @media (min-width: 1024px) {
+    .tix__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+      gap: var(--col-gap);
+    }
+    .tix__card { padding: var(--s-7) var(--s-6); }
+  }
+</style>

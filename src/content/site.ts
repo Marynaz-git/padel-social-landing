@@ -169,6 +169,37 @@ export const location = {
   text: 'A premium padel setting for a day of sport, music and connection.',
 };
 
+/* ---- 07b Tickets (between Location and the registration CTA) ------------ */
+export const tickets = {
+  label: 'TICKETS',
+  headline: { lines: ['TWO WAYS'], accentLine: ['TO ', 'JOIN.'] },
+  cards: [
+    {
+      num: '01',
+      title: 'TOURNAMENT + AFTER PADEL',
+      price: `${prices.symbol}${prices.tournamentAfter}`,
+      time: '15:00 – 21:00',
+      items: [
+        'Winners Court tournament, all levels',
+        'Minimum 2 months of regular play',
+        'Free drinks from 17:00',
+        'DJ & After Padel until 21:00',
+      ],
+      cta: 'Join the tournament',
+      participation: 'tournament_after',
+    },
+    {
+      num: '02',
+      title: 'AFTER PADEL ONLY',
+      price: `${prices.symbol}${prices.afterOnly}`,
+      time: '17:00 – 21:00',
+      items: ['Free drinks from 17:00', 'DJ & open-air social evening', 'Meet the players after the matches'],
+      cta: 'Join After Padel',
+      participation: 'after_only',
+    },
+  ],
+} as const;
+
 /* ---- 08 Main CTA + registration ---------------------------------------- */
 export const mainCta = {
   small: '03 OCTOBER · LISBON',
