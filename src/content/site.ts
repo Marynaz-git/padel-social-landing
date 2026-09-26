@@ -177,7 +177,6 @@ export const tickets = {
   aside: ['SPORT', 'MUSIC', 'DRINKS', 'OPEN COURTS', 'PEOPLE'],
   cards: [
     {
-      num: '01',
       title: ['TOURNAMENT', '+ AFTER PADEL'],
       price: `${prices.symbol}${prices.tournamentAfter}`,
       text: 'Play in the tournament, compete for prizes and stay for the full After Padel experience.',
@@ -191,7 +190,6 @@ export const tickets = {
       participation: 'tournament_after',
     },
     {
-      num: '02',
       title: ['AFTER PADEL', 'ONLY'],
       price: `${prices.symbol}${prices.afterOnly}`,
       text: 'Join the main evening part — music, drinks, open courts and great people.',

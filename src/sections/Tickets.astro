@@ -22,7 +22,6 @@ import Icon from '../components/Icon.astro';
     <ul class="tix__cards">
       {tickets.cards.map((c) => (
         <li class="tix__card">
-          <p class="tix__num"><span class="ruled-cols__mark">{c.num}</span><span class="tix__line" aria-hidden="true"></span></p>
           <div class="tix__top">
             <h3 class="h3 tix__name">{c.title.map((l) => <span>{l}</span>)}</h3>
             <p class="h3 tix__price">{c.price}</p>
@@ -103,10 +102,7 @@ import Icon from '../components/Icon.astro';
   }
   .tix__card > * { min-width: 0; }
 
-  .tix__top { display: grid; gap: var(--s-3); margin-top: var(--s-4); }
-  .tix__num { display: flex; align-items: center; }
-  .tix__num .ruled-cols__mark { width: auto; margin-right: var(--s-3); }
-  .tix__line { display: block; width: 3.5rem; height: 1px; background: var(--ivory-line); }
+  .tix__top { display: grid; gap: var(--s-3); }
   .tix__name > span { display: block; }
   .tix__price { color: var(--amber-ink); }
   /* wide enough: price moves to the right of the title */
