@@ -92,9 +92,7 @@ export function formspreePayload(d: RegistrationData) {
     Participation: part ? `${part.label} — ${part.price}` : d.participation,
     'Playing level':
       d.participation === 'tournament_after' && d.level
-        ? d.level === 'none'
-          ? f.levelNone.label
-          : d.level
+        ? d.level
         : '— (After Padel only)',
   };
 }

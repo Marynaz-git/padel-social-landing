@@ -11,7 +11,7 @@ create table if not exists public.registrations (
   contact_via   text not null check (contact_via in ('telegram', 'whatsapp')),
   instagram     text,
   participation text not null check (participation in ('tournament_after', 'after_only')),
-  level         text check (level in ('M1','M2','M3','M4','M5','M6','F1','F2','F3','F4','F5','F6','none')),
+  level         text check (level in ('M1','M2','M3','M4','M5','M6','F1','F2','F3','F4','F5','F6')),
   consent       boolean not null check (consent = true),
   source        text not null default 'landing-vol2',
   -- a level is required for the tournament

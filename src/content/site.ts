@@ -17,9 +17,8 @@ export const FPP_LEVELS = {
 } as const;
 export type FppLevel =
   | (typeof FPP_LEVELS.men)[number]
-  | (typeof FPP_LEVELS.women)[number]
-  | 'none';
-export const FPP_LEVEL_VALUES: readonly FppLevel[] = [...FPP_LEVELS.men, ...FPP_LEVELS.women, 'none'];
+  | (typeof FPP_LEVELS.women)[number];
+export const FPP_LEVEL_VALUES: readonly FppLevel[] = [...FPP_LEVELS.men, ...FPP_LEVELS.women];
 
 /** Marker for unknown content. Search the repo for `TODO(` to find all. */
 const TODO = null;
@@ -208,7 +207,6 @@ export const registration = {
       { label: 'Men', options: FPP_LEVELS.men.map((v) => ({ value: v, label: v })) },
       { label: 'Women', options: FPP_LEVELS.women.map((v) => ({ value: v, label: v })) },
     ],
-    levelNone: { value: 'none' as FppLevel, label: 'No federation level yet' },
     optional: 'optional',
     consent: 'I agree to Play Padel Club processing my details to manage my registration for this event.', // DRAFT — review
   },
