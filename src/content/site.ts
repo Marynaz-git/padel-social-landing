@@ -186,7 +186,7 @@ export const tickets = {
         { icon: 'trophy', text: 'Awards for tournament winners' },
       ],
       plus: { label: 'PLUS EVERYTHING IN AFTER PADEL', time: '17:00 — 21:00' },
-      cta: 'JOIN TOURNAMENT + AFTER PADEL',
+      cta: 'Join Tournament + After Padel',
       participation: 'tournament_after',
     },
     {
@@ -202,7 +202,7 @@ export const tickets = {
         { icon: 'people', text: 'Great atmosphere and new connections' },
       ],
       plus: null,
-      cta: 'JOIN AFTER PADEL',
+      cta: 'Join After Padel',
       participation: 'after_only',
     },
   ],
