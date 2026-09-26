@@ -7,7 +7,7 @@ import Icon from '../components/Icon.astro';
   <div class="container">
     <header class="tix__head">
       <div class="tix__intro">
-        <p class="label tix__label"><span>{tickets.label}</span><span class="tix__line" aria-hidden="true"></span></p>
+        <p class="label label--accent">{tickets.label}</p>
         <h2 id="tix-title" class="h2 lines tix__title">
           <span>{tickets.headline.line1}</span>
           <span><span class="accent">{tickets.headline.accent}</span>{tickets.headline.rest}</span>
@@ -22,15 +22,15 @@ import Icon from '../components/Icon.astro';
     <ul class="tix__cards">
       {tickets.cards.map((c) => (
         <li class="tix__card">
-          <p class="label tix__num"><span>{c.num}</span><span class="tix__line tix__line--short" aria-hidden="true"></span></p>
+          <p class="tix__num"><span class="ruled-cols__mark">{c.num}</span><span class="tix__line" aria-hidden="true"></span></p>
           <div class="tix__top">
             <h3 class="h3 tix__name">{c.title.map((l) => <span>{l}</span>)}</h3>
-            <p class="tix__price">{c.price}</p>
+            <p class="h3 tix__price">{c.price}</p>
           </div>
           <p class="tix__text">{c.text}</p>
 
           <div class="tix__block">
-            <p class="label tix__sub"><strong>{c.sub.label}</strong><span>{c.sub.time}</span></p>
+            <p class="label tix__sub"><span>{c.sub.label}</span><span>{c.sub.time}</span></p>
             <ul class="tix__items">
               {c.items.map((it) => (
                 <li>
@@ -43,11 +43,11 @@ import Icon from '../components/Icon.astro';
 
           {c.plus && (
             <div class="tix__block">
-              <p class="label tix__sub"><strong>{c.plus.label}</strong><span>{c.plus.time}</span></p>
+              <p class="label tix__sub"><span>{c.plus.label}</span><span>{c.plus.time}</span></p>
             </div>
           )}
 
-          <a class="btn tix__btn" href={links.register} data-ticket={c.participation}>
+          <a class="btn btn--dark btn--lg tix__btn" href={links.register} data-ticket={c.participation}>
             <span>{c.cta}</span>
             <Icon name="arrow" size={18} class="arrow" />
           </a>
@@ -82,13 +82,9 @@ import Icon from '../components/Icon.astro';
 
   /* ---------- Header ---------- */
   .tix__head { display: grid; gap: var(--s-6); }
-  .tix__label { display: flex; align-items: center; gap: var(--s-4); }
-  .tix__label > span:first-child { flex: none; }
-  .tix__line { display: block; flex: 0 1 14rem; min-width: 1.5rem; height: 1px; background: var(--ivory-line); }
-  .tix__line--short { flex: 0 0 3.5rem; }
   .tix__title { margin-top: var(--s-5); font-size: clamp(2.3rem, 0.9rem + 5.8vw, 7.5rem); }
   .tix__title > span { white-space: normal; }
-  .tix__lead { margin-top: var(--s-5); max-width: 28em; color: var(--ink-soft); }
+  .tix__lead { margin-top: var(--s-5); max-width: 28em; }
   .tix__aside { display: none; }
 
   /* ---------- Cards ---------- */
@@ -102,24 +98,17 @@ import Icon from '../components/Icon.astro';
     flex-direction: column;
     padding: var(--s-6) var(--s-5);
     border: 1px solid var(--ivory-line);
+    background: var(--ivory); /* same fill as the registration panel (.reg) */
     container-type: inline-size;
   }
   .tix__card > * { min-width: 0; }
 
   .tix__top { display: grid; gap: var(--s-3); margin-top: var(--s-4); }
-  .tix__num { display: flex; align-items: center; gap: var(--s-3); color: var(--ink-soft); }
-  .tix__name { line-height: 0.95; }
+  .tix__num { display: flex; align-items: center; }
+  .tix__num .ruled-cols__mark { width: auto; margin-right: var(--s-3); }
+  .tix__line { display: block; width: 3.5rem; height: 1px; background: var(--ivory-line); }
   .tix__name > span { display: block; }
-  .tix__price {
-    font-family: var(--font-serif);
-    font-optical-sizing: none;
-    font-variation-settings: var(--opsz-display);
-    font-weight: 500;
-    font-size: var(--fs-h3);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    color: var(--amber-ink);
-  }
+  .tix__price { color: var(--amber-ink); }
   /* wide enough: price moves to the right of the title */
   @container (min-width: 30rem) {
     /* price top-aligned with the first line of the title (same size, same line box) */
@@ -131,8 +120,6 @@ import Icon from '../components/Icon.astro';
 
   .tix__block { margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--ivory-line); }
   .tix__sub { display: flex; flex-wrap: wrap; gap: 0.3rem var(--s-4); }
-  .tix__sub strong { font-weight: 600; color: var(--ink); }
-  .tix__sub span { color: var(--ink-soft); }
 
   .tix__items { display: grid; gap: var(--s-3); margin-top: var(--s-4); }
   .tix__items li { display: flex; align-items: center; gap: var(--s-4); color: var(--ink-soft); }
@@ -148,24 +135,11 @@ import Icon from '../components/Icon.astro';
   }
   .tix__badge :global(svg) { width: 1.35rem; height: 1.35rem; }
 
-  /* outlined pill, full width, pinned to the bottom of the card */
-  .tix__btn {
-    width: 100%;
-    margin-top: auto;
-    background: transparent;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: var(--fs-label);
-    font-weight: 500;
-    letter-spacing: var(--track-label);
-    text-transform: uppercase;
-    white-space: normal;
-    text-align: center;
-    padding-block: 0.9em;
-  }
-  @media (max-width: 639px) { .tix__btn { letter-spacing: var(--track-caps); padding-inline: 1em; gap: 0.6em; } }
-  .tix__btn:hover { background: var(--ink); color: var(--cream); }
-  .tix__btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+  /* same button as the form submit (.btn .btn--dark .btn--lg), full width like .reg__submit */
+  .tix__btn { width: 100%; margin-top: auto; }
+  /* the long caps label may wrap on narrow cards instead of overflowing */
+  .tix__btn > span { white-space: normal; text-align: center; }
+  .tix__btn :global(.arrow) { flex: none; }
   .tix__card > .tix__block:last-of-type { margin-bottom: var(--s-6); }
 
   /* ---------- Desktop ---------- */
@@ -177,7 +151,6 @@ import Icon from '../components/Icon.astro';
       margin-top: 2.5rem;
       padding: var(--s-2) 0 var(--s-2) var(--s-6);
       border-left: 1px solid var(--amber);
-      color: var(--ink-soft);
     }
     .tix__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: var(--col-gap); }
     .tix__card { padding: var(--s-7) var(--s-6); }
