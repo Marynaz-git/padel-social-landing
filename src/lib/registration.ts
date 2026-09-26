@@ -21,7 +21,6 @@ export type RegistrationData = {
   phoneCountry: string; // ISO 3166-1 alpha-2, e.g. "PT"
   phoneNumber: string; // national number as typed (spaces allowed)
   contactVia: ContactVia | '';
-  instagram: string;
   participation: Participation;
   level: FppLevel | null; // required only for tournament_after
   consent: boolean;
@@ -88,7 +87,6 @@ export function formspreePayload(d: RegistrationData) {
     'Full name': d.fullName.trim(),
     Phone: toE164(d.phoneCountry, d.phoneNumber) ?? '',
     'Contact via': contactLabel(d.contactVia),
-    Instagram: d.instagram.trim() || '—',
     Participation: part ? `${part.label} — ${part.price}` : d.participation,
     'Playing level':
       d.participation === 'tournament_after' && d.level
@@ -129,7 +127,6 @@ async function saveToSupabase(url: string, key: string, d: RegistrationData): Pr
         full_name: d.fullName.trim(),
         phone: toE164(d.phoneCountry, d.phoneNumber),
         contact_via: d.contactVia,
-        instagram: d.instagram.trim() || null,
         participation: d.participation,
         level: d.participation === 'tournament_after' ? d.level : null,
         consent: d.consent,

@@ -136,9 +136,9 @@ export const experience = {
 export const whyCome = {
   label: 'WHY COME',
   columns: [
-    { num: '01', title: 'THE GAME', text: ['Competitive enough to be exciting.', 'Social enough to actually enjoy it.'], photo: 'whyGame' },
-    { num: '02', title: 'THE PEOPLE', text: ['Meet players you’ll actually', 'want to play with again.'], photo: 'whyPeople' },
-    { num: '03', title: 'THE AFTER', text: ['The match ends.', 'The event doesn’t.'], photo: 'whyAfter' },
+    { num: '01', title: 'THE GAME', text: ['Competitive enough to be exciting.', 'Social enough to actually enjoy it.'] },
+    { num: '02', title: 'THE PEOPLE', text: ['Meet players you’ll actually', 'want to play with again.'] },
+    { num: '03', title: 'THE AFTER', text: ['The match ends.', 'The event doesn’t.'] },
   ],
 } as const;
 
@@ -193,7 +193,6 @@ export const registration = {
       { value: 'telegram' as ContactVia, label: 'Telegram' },
       { value: 'whatsapp' as ContactVia, label: 'WhatsApp' },
     ],
-    instagram: 'Instagram handle',
     participation: 'Participation',
     participationOptions: [
       { value: 'tournament_after', label: 'Tournament + After Padel', price: `${prices.symbol}${prices.tournamentAfter}` },
@@ -207,7 +206,6 @@ export const registration = {
       { label: 'Men', options: FPP_LEVELS.men.map((v) => ({ value: v, label: v })) },
       { label: 'Women', options: FPP_LEVELS.women.map((v) => ({ value: v, label: v })) },
     ],
-    optional: 'optional',
     consent: 'I agree to Play Padel Club processing my details to manage my registration for this event.', // DRAFT — review
   },
   submit: 'Join Padel Social',

@@ -9,7 +9,6 @@ create table if not exists public.registrations (
   full_name     text not null check (length(trim(full_name)) > 0),
   phone         text not null check (phone ~ '^\+[1-9][0-9]{6,17}$'),  -- E.164, e.g. +351912345678
   contact_via   text not null check (contact_via in ('telegram', 'whatsapp')),
-  instagram     text,
   participation text not null check (participation in ('tournament_after', 'after_only')),
   level         text check (level in ('M1','M2','M3','M4','M5','M6','F1','F2','F3','F4','F5','F6')),
   consent       boolean not null check (consent = true),

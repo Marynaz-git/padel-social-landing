@@ -65,32 +65,6 @@ export const photos = {
     position: '52% 35%',
   },
 
-  /* 04 Why come */
-  whyGame: {
-    file: 'why-game-net-rally.jpg', // v2 #02
-    ratio: '3/4',
-    alt: 'Man and woman playing padel at the net at sunset, the woman reaching for the ball',
-    caption: 'The game — rally at the net',
-    tone: 'sunset',
-    position: '62% 50%',
-  },
-  whyPeople: {
-    file: 'why-people-group-medals.jpg', // v2 #05
-    ratio: '3/4',
-    alt: 'Big group of players with medals and rackets smiling together on the terrace at sunset',
-    caption: 'The people — group photo',
-    tone: 'sunset',
-    position: '50% 48%',
-  },
-  whyAfter: {
-    file: 'why-after-night-party.jpg', // v2 #07
-    ratio: '3/4',
-    alt: 'Night party by the courts: DJ, crowd and warm string lights',
-    caption: 'The after — night party',
-    tone: 'night',
-    position: '50% 45%',
-  },
-
   /* 05 Atmosphere — crops differ from where each photo appears elsewhere */
   atmoCourts: {
     file: 'atmosphere-night-dancing-dj.jpg', // v2 #10 — main collage image

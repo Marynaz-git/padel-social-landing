@@ -78,11 +78,6 @@ const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
           <p class="field__err" id="e-contact"></p>
         </fieldset>
 
-        <div class="field">
-          <label for="f-ig">{f.instagram} <span class="opt">({f.optional})</span></label>
-          <input id="f-ig" name="instagram" type="text" autocomplete="off" placeholder="@" />
-        </div>
-
         <fieldset class="field choice" aria-describedby="e-part">
           <legend>{f.participation}</legend>
           <div class="choice__opts choice__opts--price">
@@ -209,7 +204,6 @@ const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
         phoneCountry: String(fd.get('phone_country') ?? ''),
         phoneNumber: String(fd.get('phone') ?? ''),
         contactVia: String(fd.get('contact_via') ?? '') as ContactVia | '',
-        instagram: String(fd.get('instagram') ?? ''),
         participation,
         level: participation === 'tournament_after' ? ((fd.get('level') as FppLevel | null) || null) : null,
         consent: fd.get('consent') === 'on',
@@ -362,7 +356,6 @@ const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
     padding: 0;
   }
   .field legend { margin-bottom: 0.6rem; }
-  .opt { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink-soft); }
 
   .field input[type='text'],
   .field input[type='tel'] {

@@ -218,3 +218,40 @@ button { cursor: pointer; }
 
 .rule { height: var(--rule); background: var(--ivory-line); border: 0; margin: 0; }
 .on-dark .rule { background: var(--line-dark); }
+
+/* ---- Ruled columns (Who It's For, Why Come) ------------------------------
+   Mobile: stacked rows split by thin horizontal rules.
+   ≥900px: 3 equal columns, thin top/bottom rules, amber vertical dividers. */
+.ruled-cols {
+  display: grid;
+  border-top: 1px solid var(--ivory-line);
+}
+.ruled-cols > li {
+  display: flex;
+  gap: 1.25rem;
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--ivory-line);
+}
+.ruled-cols__mark {
+  flex: none;
+  width: 2.5rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--amber-ink);
+  line-height: 1.5;
+}
+@media (min-width: 900px) {
+  .ruled-cols {
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--ivory-line);
+  }
+  .ruled-cols > li {
+    flex-direction: column;
+    gap: var(--s-6);
+    padding: var(--s-6) var(--s-6) var(--s-7);
+    border-bottom: 0;
+    border-left: 1px solid var(--amber);
+  }
+  .ruled-cols > li:first-child { border-left: 0; padding-left: 0; }
+}
