@@ -12,7 +12,7 @@ import Icon from '../components/Icon.astro';
           <span>{tickets.headline.line1}</span>
           <span><span class="accent">{tickets.headline.accent}</span>{tickets.headline.rest}</span>
         </h2>
-        <p class="lead tix__lead">{tickets.intro}</p>
+        <p class="lead tix__lead">{tickets.intro[0]}<br />{tickets.intro[1]}</p>
       </div>
       <ul class="label tix__aside" aria-hidden="true">
         {tickets.aside.map((w) => <li>{w}</li>)}
@@ -22,15 +22,10 @@ import Icon from '../components/Icon.astro';
     <ul class="tix__cards">
       {tickets.cards.map((c) => (
         <li class="tix__card">
+          <p class="label tix__num"><span>{c.num}</span><span class="tix__line tix__line--short" aria-hidden="true"></span></p>
           <div class="tix__top">
-            <div>
-              <p class="label tix__num"><span>{c.num}</span><span class="tix__line tix__line--short" aria-hidden="true"></span></p>
-              <h3 class="h3 tix__name">{c.title.map((l) => <span>{l}</span>)}</h3>
-            </div>
-            <p class="tix__pricebox">
-              <span class="tix__price">{c.price}</span>
-              <span class="label tix__time">{c.time}</span>
-            </p>
+            <h3 class="h3 tix__name">{c.title.map((l) => <span>{l}</span>)}</h3>
+            <p class="tix__price">{c.price}</p>
           </div>
           <p class="tix__text">{c.text}</p>
 
@@ -111,26 +106,25 @@ import Icon from '../components/Icon.astro';
   }
   .tix__card > * { min-width: 0; }
 
-  .tix__top { display: grid; gap: var(--s-4); }
+  .tix__top { display: grid; gap: var(--s-3); margin-top: var(--s-4); }
   .tix__num { display: flex; align-items: center; gap: var(--s-3); color: var(--ink-soft); }
-  .tix__name { margin-top: var(--s-4); line-height: 0.95; }
+  .tix__name { line-height: 0.95; }
   .tix__name > span { display: block; }
-  .tix__pricebox { display: grid; gap: var(--s-2); justify-items: start; }
   .tix__price {
     font-family: var(--font-serif);
     font-optical-sizing: none;
     font-variation-settings: var(--opsz-display);
     font-weight: 500;
     font-size: var(--fs-h3);
-    line-height: 0.9;
+    line-height: 0.95;
     letter-spacing: -0.02em;
     color: var(--amber-ink);
   }
-  .tix__time { color: var(--ink-soft); }
   /* wide enough: price moves to the right of the title */
   @container (min-width: 30rem) {
-    .tix__top { grid-template-columns: 1fr auto; column-gap: var(--s-5); }
-    .tix__pricebox { justify-items: end; text-align: right; padding-top: calc(var(--s-4) + 1.4em); }
+    /* price top-aligned with the first line of the title (same size, same line box) */
+    .tix__top { grid-template-columns: 1fr auto; column-gap: var(--s-5); align-items: start; }
+    .tix__price { text-align: right; }
   }
 
   .tix__text { margin-top: var(--s-4); max-width: 30em; color: var(--ink-soft); }
