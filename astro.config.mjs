@@ -12,6 +12,7 @@ export default defineConfig({
   site: SITE_URL,
   output: 'static',
   trailingSlash: 'ignore',
-  build: { inlineStylesheets: 'auto' },
+  // all CSS inlined into the HTML: a page can never load with an outdated or missing stylesheet after a redeploy
+  build: { inlineStylesheets: 'always' },
   image: { responsiveStyles: false },
 });
