@@ -25,11 +25,11 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 | 07 Location | `locationVenue` | `location-terrace-tables-courts-sunset.jpg` (v4 #2) | 1672×941 | 3:2 | 45% 55% | Terrace and padel courts at W Padel Country Club at sunset |
 | 07 Location | `locationDetail` | `location-friends-table-w-sign.jpg` (v4 #3) | 1122×1402 | 1:1 | 50% 55% | Friends with drinks next to the courts at W Padel Country Club |
 | 08 Main CTA | `ctaMacro` | `ball-racket-macro.jpg` (#3) | 1122×1402 | 1:1 | 72% 72%, zoom 1.9× | *(decorative, alt="")* |
-| 10 Final CTA | `finalSunset` | `final-group-celebrating-court.jpg` (v4 #1, top 33% with the banner cropped off) | 1448×728 | full-bleed | 0% 50% (≥1024), 22% 50% (≥768), 32% 50% (mobile) | Players celebrating together on the court at W Padel Country Club |
+| 10 Final CTA | `finalSunset` | `final-friends-dancing-sunset.jpg` (final CTA v2) | 1672×941 | full-bleed | 80% 50% (mobile, ≥1024), 85% 50% (≥768) | Friends dancing and having drinks at sunset next to the padel courts |
 
 **Per-breakpoint overrides**
 - Hero `--pos`: 55% 45% (mobile 4:5), 45% 45% (≥640), 30% 40% (≥1024). Keeps both faces clear of the off-white fade.
-- Final CTA `--pos`: 32% 50% (mobile portrait), 22% 50% (≥768), 0% 50% (≥1024). The left dark band was strengthened for this brighter photo (small label ≥ 4.5:1).
+- Final CTA `--pos`: 80% 50% (mobile portrait), 85% 50% (≥768), 80% 50% (≥1024).
 
 **Open Graph:** `public/og-image.jpg` is a 1200×630 centre crop of the hero photo (#1).
 

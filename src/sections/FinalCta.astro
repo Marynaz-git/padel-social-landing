@@ -31,19 +31,18 @@ import Icon from '../components/Icon.astro';
     align-items: flex-end;
     overflow: hidden;
   }
-  .final__media { position: absolute; inset: 0; --pos: 32% 50%; } /* narrow portrait: centre of the group */
+  .final__media { position: absolute; inset: 0; --pos: 80% 50%; } /* narrow portrait: the two dancing women */
   /* dark fallback while the photo decodes — never a light/grey gradient */
   .final__media :global(.photo) { background: var(--charcoal); }
-  @media (min-width: 768px) { .final__media { --pos: 22% 50%; } }
-  /* wide screens: the photo is only a little wider than the viewport — show the whole group, it spreads across the frame */
-  @media (min-width: 1024px) { .final__media { --pos: 0% 50%; } }
+  @media (min-width: 768px) { .final__media { --pos: 85% 50%; } }
+  /* wide screens: dancers centre-right, table on the left under the headline */
+  @media (min-width: 1024px) { .final__media { --pos: 80% 50%; } }
   .final__shade {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(0deg, rgb(27 22 19 / 0.92) 0%, rgb(27 22 19 / 0.55) 38%, rgb(27 22 19 / 0.1) 70%),
-      /* left band a bit stronger for the brighter group photo: small label ≥ 4.5:1 */
-      linear-gradient(90deg, rgb(27 22 19 / 0.8) 0%, rgb(27 22 19 / 0.62) 32%, transparent 68%);
+      linear-gradient(90deg, rgb(27 22 19 / 0.45) 0%, transparent 60%);
   }
   .final__body {
     position: relative;

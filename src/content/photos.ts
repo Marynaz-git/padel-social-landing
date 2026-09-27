@@ -131,12 +131,12 @@ export const photos = {
 
   /* 10 Final CTA — photo #5 */
   finalSunset: {
-    file: 'final-group-celebrating-court.jpg', // v4 #1 — top 33% of the source cropped off (banner text)
+    file: 'final-friends-dancing-sunset.jpg', // final CTA v2
     ratio: '21/9',
-    alt: 'Players celebrating together on the court at W Padel Country Club',
-    caption: 'Final — big group photo on the court',
+    alt: 'Friends dancing and having drinks at sunset next to the padel courts',
+    caption: 'Final — two women dancing with drinks, friends around, sunset',
     tone: 'sunset',
-    position: '0% 50%',
+    position: '80% 50%',
   },
 } satisfies Record<string, PhotoSlot>;
 
