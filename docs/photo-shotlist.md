@@ -22,14 +22,14 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 | 05 Atmosphere | `atmoPlayers` | `atmosphere-bw-women-playing.jpg` (atmosphere v2 #2) | 1086×1448 | tile | 60% 55% | Two women playing padel |
 | 05 Atmosphere | `atmoDj` | `atmosphere-bw-players-courtside.jpg` (sent in chat) | 1024×1536 | tile | 50% 100%, zoom 1.35× | Players with rackets chatting between the padel courts |
 | 05 Atmosphere | `atmoCrowd` | `atmosphere-bw-beers-bench-court.jpg` (IMG_1814, sent in chat) | 2840x3787 | tile | 62% 78% | Cups of beer on a bench by the padel court, a hand reaching for one |
-| 07 Location | `locationVenue` | `location-terrace-courts-sunset.jpg` (v2 13) | 1672×941 | 3:2 | 50% 55% | W Padel Country Club at sunset: lounge terrace overlooking the padel courts |
-| 07 Location | `locationDetail` | `location-venue-dusk-lights.jpg` (v2 14) | 1672×941 | 1:1 | 62% 60% | The club at dusk with the court lights and terrace lamps on |
+| 07 Location | `locationVenue` | `location-terrace-tables-courts-sunset.jpg` (v4 #2) | 1672×941 | 3:2 | 45% 55% | Terrace and padel courts at W Padel Country Club at sunset |
+| 07 Location | `locationDetail` | `location-friends-table-w-sign.jpg` (v4 #3) | 1122×1402 | 1:1 | 50% 55% | Friends with drinks next to the courts at W Padel Country Club |
 | 08 Main CTA | `ctaMacro` | `ball-racket-macro.jpg` (#3) | 1122×1402 | 1:1 | 72% 72%, zoom 1.9× | *(decorative, alt="")* |
-| 10 Final CTA | `finalSunset` | `final-dj-sunset-crowd.jpg` (#5) | 1672×941 | 21:9 | 50% 45% | Sunset party by the padel courts: DJ on the left, friends laughing with drinks and players still on court |
+| 10 Final CTA | `finalSunset` | `final-group-celebrating-court.jpg` (v4 #1, top 33% with the banner cropped off) | 1448×728 | full-bleed | 0% 50% (≥1024), 22% 50% (≥768), 32% 50% (mobile) | Players celebrating together on the court at W Padel Country Club |
 
 **Per-breakpoint overrides**
 - Hero `--pos`: 55% 45% (mobile 4:5), 45% 45% (≥640), 30% 40% (≥1024). Keeps both faces clear of the off-white fade.
-- Final CTA `--pos`: 58% 45% (mobile portrait), 50% 45% (≥768).
+- Final CTA `--pos`: 32% 50% (mobile portrait), 22% 50% (≥768), 0% 50% (≥1024). The left dark band was strengthened for this brighter photo (small label ≥ 4.5:1).
 
 **Open Graph:** `public/og-image.jpg` is a 1200×630 centre crop of the hero photo (#1).
 

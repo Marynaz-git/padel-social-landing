@@ -31,16 +31,19 @@ import Icon from '../components/Icon.astro';
     align-items: flex-end;
     overflow: hidden;
   }
-  .final__media { position: absolute; inset: 0; --pos: 58% 45%; }
+  .final__media { position: absolute; inset: 0; --pos: 32% 50%; } /* narrow portrait: centre of the group */
   /* dark fallback while the photo decodes — never a light/grey gradient */
   .final__media :global(.photo) { background: var(--charcoal); }
-  @media (min-width: 768px) { .final__media { --pos: 50% 45%; } }
+  @media (min-width: 768px) { .final__media { --pos: 22% 50%; } }
+  /* wide screens: the photo is only a little wider than the viewport — show the whole group, it spreads across the frame */
+  @media (min-width: 1024px) { .final__media { --pos: 0% 50%; } }
   .final__shade {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(0deg, rgb(27 22 19 / 0.92) 0%, rgb(27 22 19 / 0.55) 38%, rgb(27 22 19 / 0.1) 70%),
-      linear-gradient(90deg, rgb(27 22 19 / 0.45) 0%, transparent 60%);
+      /* left band a bit stronger for the brighter group photo: small label ≥ 4.5:1 */
+      linear-gradient(90deg, rgb(27 22 19 / 0.8) 0%, rgb(27 22 19 / 0.62) 32%, transparent 68%);
   }
   .final__body {
     position: relative;

@@ -102,20 +102,20 @@ export const photos = {
 
   /* 07 Location */
   locationVenue: {
-    file: 'location-terrace-courts-sunset.jpg', // v2 #13
+    file: 'location-terrace-tables-courts-sunset.jpg', // v4 #2
     ratio: '3/2',
-    alt: 'W Padel Country Club at sunset: lounge terrace overlooking the padel courts',
-    caption: 'Venue — terrace and courts, sunset',
+    alt: 'Terrace and padel courts at W Padel Country Club at sunset',
+    caption: 'Venue — terrace tables, courts and the W sign, sunset',
     tone: 'sunset',
-    position: '50% 55%',
+    position: '45% 55%',
   },
   locationDetail: {
-    file: 'location-venue-dusk-lights.jpg', // v2 #14
+    file: 'location-friends-table-w-sign.jpg', // v4 #3
     ratio: '1/1',
-    alt: 'The club at dusk with the court lights and terrace lamps on',
-    caption: 'Venue — dusk, lights on',
-    tone: 'dusk',
-    position: '62% 60%',
+    alt: 'Friends with drinks next to the courts at W Padel Country Club',
+    caption: 'Friends at a table, courts and the W sign behind',
+    tone: 'sunset',
+    position: '50% 55%',
   },
 
   /* 08 Main CTA */
@@ -131,12 +131,12 @@ export const photos = {
 
   /* 10 Final CTA — photo #5 */
   finalSunset: {
-    file: 'final-dj-sunset-crowd.jpg',
+    file: 'final-group-celebrating-court.jpg', // v4 #1 — top 33% of the source cropped off (banner text)
     ratio: '21/9',
-    alt: 'Sunset party by the padel courts: DJ on the left, friends laughing with drinks and players still on court',
-    caption: 'Final — after padel, court lights coming on',
-    tone: 'dusk',
-    position: '50% 45%',
+    alt: 'Players celebrating together on the court at W Padel Country Club',
+    caption: 'Final — big group photo on the court',
+    tone: 'sunset',
+    position: '0% 50%',
   },
 } satisfies Record<string, PhotoSlot>;
 
