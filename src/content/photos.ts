@@ -67,12 +67,12 @@ export const photos = {
 
   /* 05 Atmosphere — crops differ from where each photo appears elsewhere */
   atmoCourts: {
-    file: 'atmosphere-group-celebrating-court.jpg', // atmosphere v2 #1 — banner cropped off at the top of the source
+    file: 'atmosphere-bw-five-players-rackets.jpg', // sent in chat — B&W, five players with rackets
     ratio: '16/10',
-    alt: 'Group of players celebrating on the court at W Padel Country Club',
-    caption: 'Group photo on the court, arms up',
-    tone: 'sunset',
-    position: '45% 45%',
+    alt: 'Five padel players posing with their rackets on the court',
+    caption: 'B&W — five players with rackets',
+    tone: 'night',
+    position: '50% 50%',
   },
   atmoPlayers: {
     file: 'atmosphere-bw-women-playing.jpg', // atmosphere v2 #2
@@ -83,12 +83,13 @@ export const photos = {
     position: '60% 55%',
   },
   atmoDj: {
-    file: 'atmosphere-dj-woman-sunset.jpg', // atmosphere v2 #3
+    file: 'atmosphere-bw-players-courtside.jpg', // sent in chat — B&W, players between the courts
     ratio: '3/4',
-    alt: 'DJ playing a set at sunset at W Padel Country Club',
-    caption: 'DJ at the decks, W Padel sign behind',
-    tone: 'sunset',
-    position: '52% 60%',
+    alt: 'Players with rackets chatting between the padel courts',
+    caption: 'B&W — players between the courts',
+    tone: 'night',
+    position: '50% 100%', // zoom anchored at the bottom lifts the players above the headline band
+    zoom: 1.35,
   },
   atmoCrowd: {
     file: 'atmosphere-bw-beers-bench-court.jpg', // IMG_1814 (sent in chat) — black and white, cups on the bench

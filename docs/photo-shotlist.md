@@ -18,9 +18,9 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 | 04 Why come | `whyGame` | `why-game-net-rally.jpg` (v2 02) | 1122×1402 | 3:4 | 62% 50% | Man and woman playing padel at the net at sunset, the woman reaching for the ball |
 | 04 Why come | `whyPeople` | `why-people-group-medals.jpg` (v2 05) | 1122×1402 | 3:4 | 50% 48% | Big group of players with medals and rackets smiling together on the terrace at sunset |
 | 04 Why come | `whyAfter` | `why-after-night-party.jpg` (v2 07) | 1122×1402 | 3:4 | 50% 45% | Night party by the courts: DJ, crowd and warm string lights |
-| 05 Atmosphere | `atmoCourts` | `atmosphere-group-celebrating-court.jpg` (atmosphere v2 #1, top 36% with the banner cropped off) | 1448×696 | tile | 45% 45% | Group of players celebrating on the court at W Padel Country Club |
+| 05 Atmosphere | `atmoCourts` | `atmosphere-bw-five-players-rackets.jpg` (sent in chat) | 1023×1537 | tile | 50% 50% | Five padel players posing with their rackets on the court |
 | 05 Atmosphere | `atmoPlayers` | `atmosphere-bw-women-playing.jpg` (atmosphere v2 #2) | 1086×1448 | tile | 60% 55% | Two women playing padel |
-| 05 Atmosphere | `atmoDj` | `atmosphere-dj-woman-sunset.jpg` (atmosphere v2 #3) | 1086×1448 | tile | 52% 60% | DJ playing a set at sunset at W Padel Country Club |
+| 05 Atmosphere | `atmoDj` | `atmosphere-bw-players-courtside.jpg` (sent in chat) | 1024×1536 | tile | 50% 100%, zoom 1.35× | Players with rackets chatting between the padel courts |
 | 05 Atmosphere | `atmoCrowd` | `atmosphere-bw-beers-bench-court.jpg` (IMG_1814, sent in chat) | 2840x3787 | tile | 62% 78% | Cups of beer on a bench by the padel court, a hand reaching for one |
 | 07 Location | `locationVenue` | `location-terrace-courts-sunset.jpg` (v2 13) | 1672×941 | 3:2 | 50% 55% | W Padel Country Club at sunset: lounge terrace overlooking the padel courts |
 | 07 Location | `locationDetail` | `location-venue-dusk-lights.jpg` (v2 14) | 1672×941 | 1:1 | 62% 60% | The club at dusk with the court lights and terrace lamps on |
@@ -35,7 +35,7 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 
 **Crops that would benefit from a better source photo**
 - All sources are ≤ 1672 px wide. The hero and final CTA are full-bleed, so they look slightly soft on retina/2× screens at 1440 px. A long edge of ≥ 2400–2800 px is recommended.
-- `atmoCrowd` is a vertical source in a wide desktop tile, so only the lower part (cups and hand) is shown there. `atmoCourts` is a wide source in a 4:5 tile on mobile, so the outer people get cropped there.
+- `atmoCrowd` is a vertical source in a wide desktop tile, so only the lower part (cups and hand) is shown there. `atmoCourts` is a vertical source in a wide desktop tile, so feet and sky are cropped there.
 - Atmosphere tiles are 4:5 in the mobile gallery; on desktop their shape comes from the 12-column collage grid.
 - Zoomed crops (`ctaMacro` 1.9×) use a smaller part of the source and are the softest.
 - Unused files still in `src/assets/photos/` (not on the page): `why-people-friends.jpg`, `why-after-group.jpg`, `location-venue-bridge.jpg`.

@@ -78,6 +78,8 @@ const tiles: { slot: PhotoKey; cls: string; sizes: string }[] = [
   }
   .atmo__grid::-webkit-scrollbar { display: none; }
   .atmo__tile { scroll-snap-align: start; aspect-ratio: 4 / 5; }
+  /* mobile gallery: 4:5 tile — no extra zoom on the courtside photo so heads stay in frame */
+  @media (max-width: 1023px) { .t-dj { --zoom: 1; --pos: 50% 70%; } }
   .atmo__tile :global(.photo) { height: 100%; }
 
   /* ---- Desktop: campaign collage with layered statement ---- */
