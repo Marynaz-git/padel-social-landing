@@ -67,37 +67,36 @@ export const photos = {
 
   /* 05 Atmosphere — crops differ from where each photo appears elsewhere */
   atmoCourts: {
-    file: 'atmosphere-night-dancing-dj.jpg', // v2 #10 — main collage image
+    file: 'atmosphere-group-celebrating-court.jpg', // atmosphere v2 #1 — banner cropped off at the top of the source
     ratio: '16/10',
-    alt: 'People dancing next to the DJ on the terrace at night, courts lit up behind',
-    caption: 'Night — dancing, DJ',
-    tone: 'night',
-    position: '50% 30%',
+    alt: 'Group of players celebrating on the court at W Padel Country Club',
+    caption: 'Group photo on the court, arms up',
+    tone: 'sunset',
+    position: '45% 45%',
   },
   atmoPlayers: {
-    file: 'atmosphere-forehand.jpg', // photo #10
+    file: 'atmosphere-bw-women-playing.jpg', // atmosphere v2 #2
     ratio: '4/5',
-    alt: 'Player hitting a forehand with another player ready behind',
-    caption: 'Players mid-rally',
-    tone: 'sunset',
-    position: '30% 45%',
+    alt: 'Two women playing padel',
+    caption: 'Black-and-white rally',
+    tone: 'night',
+    position: '60% 55%',
   },
   atmoDj: {
-    file: 'experience-stay-toast-white-wine.jpg', // v3 B (same source as experienceStay) — tighter on the glasses
+    file: 'atmosphere-dj-woman-sunset.jpg', // atmosphere v2 #3
     ratio: '3/4',
-    alt: 'Friends toasting with glasses of white wine',
-    caption: 'Toast with white wine',
-    tone: 'dusk',
-    position: '47% 45%',
-    zoom: 1.2,
+    alt: 'DJ playing a set at sunset at W Padel Country Club',
+    caption: 'DJ at the decks, W Padel sign behind',
+    tone: 'sunset',
+    position: '52% 60%',
   },
   atmoCrowd: {
-    file: 'atmosphere-friends-table-sunset.jpg', // v2 #11 — main collage image
+    file: 'atmosphere-friends-lounge-drinks.jpg', // atmosphere v2 #4
     ratio: '16/9',
-    alt: 'Four friends laughing around a table with drinks and rackets at sunset',
-    caption: 'Friends at a table, sunset',
+    alt: 'Friends laughing with drinks next to the padel courts',
+    caption: 'Friends on the lounge, courts behind',
     tone: 'sunset',
-    position: '50% 60%',
+    position: '50% 35%',
   },
 
   /* 07 Location */
