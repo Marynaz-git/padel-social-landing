@@ -31,10 +31,10 @@ export type PhotoSlot = {
 export const photos = {
   /* 01 Hero — W Padel Country Club at sunset (the OG image is a separate file in public/) */
   heroSunsetSocial: {
-    file: 'hero-dj-guests-w-padel-sunset.jpg',
+    file: 'hero-dj-palms-sunset-guests.jpg',
     ratio: '16/9',
-    alt: 'DJ, padel players and guests with drinks at W Padel Country Club, Lisbon, at sunset',
-    caption: 'Hero — DJ, woman in white with a drink, guests at tables, courts and the W sign',
+    alt: 'DJ, padel players and guests with drinks at sunset at W Padel Country Club, Lisbon',
+    caption: 'Hero — DJ, woman in white with a drink, guests at tables, palms at sunset',
     tone: 'sunset',
     position: '85% 50%',
   },
