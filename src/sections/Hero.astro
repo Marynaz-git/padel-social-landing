@@ -94,7 +94,7 @@ const [t1, t2] = event.schedule;
     order: 2;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    --pos: 72% 50%; /* 4:5 crop: players, the W sign and the guests on the sofa */
+    --pos: 90% 50%; /* 4:5 crop: the woman in white and the W sign */
   }
   .hero__fade {
     position: absolute;
@@ -192,7 +192,7 @@ const [t1, t2] = event.schedule;
     .hero__info { grid-template-columns: repeat(3, auto); justify-content: start; gap: 0; }
     .hero__info li { padding-inline: 1.4rem; border-left: 1px solid rgb(238 138 30 / 0.55); }
     .hero__info li:first-child { padding-left: 0; border-left: 0; }
-    .hero__media { aspect-ratio: 16 / 11; --pos: 60% 50%; }
+    .hero__media { aspect-ratio: 16 / 11; --pos: 80% 50%; }
   }
 
   /* ---------- Desktop: split, photo full-bleed right ---------- */
@@ -203,7 +203,7 @@ const [t1, t2] = event.schedule;
       inset: 0 0 auto 30%;
       height: calc(100% - var(--strip-h, 8.5rem));
       aspect-ratio: auto;
-      --pos: 66% 50%; /* guests with drinks under the fade, courts + sign on the right */
+      --pos: 85% 50%; /* DJ under the fade; woman in white, tables and the W sign in view */
     }
     .hero__fade {
       background:
@@ -238,9 +238,9 @@ const [t1, t2] = event.schedule;
   @media (min-width: 1024px) {
     .hero { --strip-h: 8.5rem; }
   }
-  /* 1024–1279: the photo column is narrow and tall, so shift right to keep both players in frame */
+  /* 1024–1279: the photo column is narrow and tall, so shift right to keep the woman, tables and sign in frame */
   @media (min-width: 1024px) and (max-width: 1279px) {
-    .hero__media { --pos: 78% 50%; }
+    .hero__media { --pos: 80% 50%; }
   }
   @media (min-width: 1280px) {
     .hero__copy { max-width: 42rem; }
