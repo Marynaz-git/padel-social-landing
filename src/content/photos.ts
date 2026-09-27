@@ -91,12 +91,12 @@ export const photos = {
     position: '52% 60%',
   },
   atmoCrowd: {
-    file: 'atmosphere-friends-lounge-drinks.jpg', // atmosphere v2 #4
+    file: 'atmosphere-bw-beers-bench-court.jpg', // IMG_1814 (sent in chat) — black and white, cups on the bench
     ratio: '16/9',
-    alt: 'Friends laughing with drinks next to the padel courts',
-    caption: 'Friends on the lounge, courts behind',
-    tone: 'sunset',
-    position: '50% 35%',
+    alt: 'Cups of beer on a bench by the padel court, a hand reaching for one',
+    caption: 'B&W — beers on the bench by the court',
+    tone: 'night',
+    position: '62% 78%',
   },
 
   /* 07 Location */

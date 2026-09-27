@@ -21,7 +21,7 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 | 05 Atmosphere | `atmoCourts` | `atmosphere-group-celebrating-court.jpg` (atmosphere v2 #1, top 36% with the banner cropped off) | 1448×696 | tile | 45% 45% | Group of players celebrating on the court at W Padel Country Club |
 | 05 Atmosphere | `atmoPlayers` | `atmosphere-bw-women-playing.jpg` (atmosphere v2 #2) | 1086×1448 | tile | 60% 55% | Two women playing padel |
 | 05 Atmosphere | `atmoDj` | `atmosphere-dj-woman-sunset.jpg` (atmosphere v2 #3) | 1086×1448 | tile | 52% 60% | DJ playing a set at sunset at W Padel Country Club |
-| 05 Atmosphere | `atmoCrowd` | `atmosphere-friends-lounge-drinks.jpg` (atmosphere v2 #4) | 1149×1369 | tile | 50% 35% | Friends laughing with drinks next to the padel courts |
+| 05 Atmosphere | `atmoCrowd` | `atmosphere-bw-beers-bench-court.jpg` (IMG_1814, sent in chat) | 2840x3787 | tile | 62% 78% | Cups of beer on a bench by the padel court, a hand reaching for one |
 | 07 Location | `locationVenue` | `location-terrace-courts-sunset.jpg` (v2 13) | 1672×941 | 3:2 | 50% 55% | W Padel Country Club at sunset: lounge terrace overlooking the padel courts |
 | 07 Location | `locationDetail` | `location-venue-dusk-lights.jpg` (v2 14) | 1672×941 | 1:1 | 62% 60% | The club at dusk with the court lights and terrace lamps on |
 | 08 Main CTA | `ctaMacro` | `ball-racket-macro.jpg` (#3) | 1122×1402 | 1:1 | 72% 72%, zoom 1.9× | *(decorative, alt="")* |
@@ -35,7 +35,7 @@ Every slot uses a real photo. `#1–#10` = first photo set (order supplied); `v2
 
 **Crops that would benefit from a better source photo**
 - All sources are ≤ 1672 px wide. The hero and final CTA are full-bleed, so they look slightly soft on retina/2× screens at 1440 px. A long edge of ≥ 2400–2800 px is recommended.
-- `atmoCrowd` is a vertical source in a wide desktop tile, so the top and bottom get cropped. `atmoCourts` is a wide source in a 4:5 tile on mobile, so the outer people get cropped there.
+- `atmoCrowd` is a vertical source in a wide desktop tile, so only the lower part (cups and hand) is shown there. `atmoCourts` is a wide source in a 4:5 tile on mobile, so the outer people get cropped there.
 - Atmosphere tiles are 4:5 in the mobile gallery; on desktop their shape comes from the 12-column collage grid.
 - Zoomed crops (`ctaMacro` 1.9×) use a smaller part of the source and are the softest.
 - Unused files still in `src/assets/photos/` (not on the page): `why-people-friends.jpg`, `why-after-group.jpg`, `location-venue-bridge.jpg`.
