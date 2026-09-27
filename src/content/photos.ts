@@ -41,28 +41,28 @@ export const photos = {
 
   /* 03 Experience */
   experiencePlay: {
-    file: 'experience-play-lunge.jpg', // photo #7
+    file: 'experience-play-woman-backhand.jpg', // v3 A
     ratio: '4/5',
-    alt: 'Padel player in a low lunge reaching for the ball at golden hour',
-    caption: 'Play — match in action, golden light',
+    alt: 'A player hitting a backhand on a padel court',
+    caption: 'Play — woman hitting a backhand',
     tone: 'sunset',
-    position: '50% 35%',
+    position: '50% 60%',
   },
   experienceStay: {
-    file: 'experience-stay-dj.jpg', // photo #9
+    file: 'experience-stay-toast-white-wine.jpg', // v3 B
     ratio: '4/5',
-    alt: 'DJ with headphones mixing at sunset while guests hold spritz glasses',
-    caption: 'Stay — drinks, bar, DJ booth',
+    alt: 'Friends toasting with glasses of white wine',
+    caption: 'Stay — toasting with white wine, top view',
     tone: 'dusk',
-    position: '48% 40%',
+    position: '50% 45%',
   },
   experienceConnect: {
-    file: 'experience-connect-friends.jpg', // photo #8
+    file: 'experience-connect-friends-w-padel.jpg', // v3 C
     ratio: '4/5',
-    alt: 'Four friends with a padel racket and drinks chatting by the courts',
-    caption: 'Connect — group talking after matches',
-    tone: 'night',
-    position: '52% 35%',
+    alt: 'Four friends with padel rackets and drinks at W Padel Country Club',
+    caption: 'Connect — friends with rackets and beers by the W Padel sign',
+    tone: 'sunset',
+    position: '50% 40%',
   },
 
   /* 05 Atmosphere — crops differ from where each photo appears elsewhere */
@@ -83,13 +83,13 @@ export const photos = {
     position: '30% 45%',
   },
   atmoDj: {
-    file: 'experience-stay-dj.jpg', // photo #9 — tight on the decks and spritz
+    file: 'experience-stay-toast-white-wine.jpg', // v3 B (same source as experienceStay) — tighter on the glasses
     ratio: '3/4',
-    alt: 'Hands on the DJ mixer next to a glass of spritz',
-    caption: 'DJ at the decks',
-    tone: 'night',
-    position: '62% 78%',
-    zoom: 1.35,
+    alt: 'Friends toasting with glasses of white wine',
+    caption: 'Toast with white wine',
+    tone: 'dusk',
+    position: '47% 45%',
+    zoom: 1.2,
   },
   atmoCrowd: {
     file: 'atmosphere-friends-table-sunset.jpg', // v2 #11 — main collage image
