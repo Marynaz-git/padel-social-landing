@@ -7,13 +7,15 @@ import { cookieBanner as c, links } from '../content/site';
   and no pixel either). Non-modal: it doesn't block the page or trap focus.
 -->
 <section class="cookie" role="region" aria-label={c.label} tabindex="-1" hidden data-cookie>
-  <p class="cookie__text">
-    {c.text}
-    <a class="link-u cookie__link" href={links.privacy.href}>{c.privacy}</a>
-  </p>
-  <div class="cookie__actions">
-    <button type="button" class="btn btn--dark btn--sm cookie__btn" data-consent="granted">{c.accept}</button>
-    <button type="button" class="btn btn--dark btn--sm cookie__btn" data-consent="denied">{c.decline}</button>
+  <div class="container cookie__inner">
+    <p class="cookie__text">
+      {c.text}
+      <a class="link-u cookie__link" href={links.privacy.href}>{c.privacy}</a>
+    </p>
+    <div class="cookie__actions">
+      <button type="button" class="btn btn--dark btn--sm cookie__btn" data-consent="granted">{c.accept}</button>
+      <button type="button" class="btn btn--sm cookie__btn cookie__btn--outline" data-consent="denied">{c.decline}</button>
+    </div>
   </div>
 </section>
 
@@ -45,33 +47,48 @@ import { cookieBanner as c, links } from '../content/site';
 </script>
 
 <style>
+  /* full-width bar pinned to the bottom edge, content on the page container */
   .cookie {
     position: fixed;
     z-index: var(--z-menu);
-    inset-inline: var(--gutter);
-    bottom: var(--gutter);
-    margin-inline: auto;
-    max-width: 44rem;
-    display: grid;
-    gap: var(--s-4);
-    padding: var(--s-5);
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: var(--ivory);
     color: var(--ink);
-    border: 1px solid var(--ink);
+    border-top: 1px solid var(--ivory-line);
     border-radius: var(--radius-0);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .cookie[hidden] { display: none; }
-  .cookie:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
-  .cookie__text { font-size: 0.95rem; line-height: 1.45; color: var(--ink-soft); }
+  .cookie:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+  .cookie__inner {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-4);
+  }
+  .cookie__text { font-size: 0.9rem; line-height: 1.45; color: var(--ink-soft); }
   .cookie__link { margin-left: 0.35em; font-size: inherit; padding-bottom: 0.1em; color: var(--ink); }
 
-  /* two identical buttons, same size and weight */
+  /* Accept = dark filled pill; Decline = outline pill, same size/font/padding */
   .cookie__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
   .cookie__btn { width: 100%; }
+  .cookie__btn--outline {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink); /* border without changing the button's size */
+  }
+  .cookie__btn--outline:hover { background: var(--ink); color: var(--cream); }
   .cookie__btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
   @media (min-width: 768px) {
-    .cookie { grid-template-columns: 1fr auto; align-items: center; column-gap: var(--s-6); }
-    .cookie__actions { grid-template-columns: repeat(2, 7.5rem); }
+    .cookie__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      column-gap: var(--s-7);
+      padding-block: var(--s-4);
+    }
+    .cookie__text { font-size: 0.95rem; }
+    .cookie__actions { grid-template-columns: repeat(2, 8rem); }
   }
 </style>
