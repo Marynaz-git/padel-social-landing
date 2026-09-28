@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo.png';
-import { footer, links } from '../content/site';
+import { footer, links, cookieBanner } from '../content/site';
 ---
 
 <footer class="footer on-dark">
@@ -24,10 +24,18 @@ import { footer, links } from '../content/site';
 
     <div class="footer__legal">
       <span>{footer.legal}</span>
-      <a class="link-u" href={links.privacy.href!}>{links.privacy.label}</a>
+      <span class="footer__legal-links">
+        <a class="link-u" href={links.privacy.href!}>{links.privacy.label}</a>
+        <button type="button" class="link-u footer__cookie" data-cookie-settings>{cookieBanner.settings}</button>
+      </span>
     </div>
   </div>
 </footer>
+
+<script>
+  import { openCookieSettings } from '../lib/consent';
+  document.querySelector('[data-cookie-settings]')?.addEventListener('click', openCookieSettings);
+</script>
 
 <style>
   .footer { padding-block: var(--s-8) var(--s-6); }
@@ -50,6 +58,9 @@ import { footer, links } from '../content/site';
     color: var(--cream-soft);
   }
   .footer__legal .link-u { font-size: 0.82rem; }
+  .footer__legal-links { display: inline-flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+  /* a button styled as the existing underline link */
+  .footer__cookie { background-color: transparent; border: 0; padding: 0 0 0.3em; color: inherit; font: inherit; cursor: pointer; }
 
   @media (min-width: 900px) {
     .footer__inner { grid-template-columns: 1fr auto; align-items: center; }

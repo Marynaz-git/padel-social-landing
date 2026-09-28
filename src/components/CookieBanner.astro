@@ -1,0 +1,77 @@
+---
+import { cookieBanner as c, links } from '../content/site';
+---
+
+<!--
+  Cookie consent. Hidden until the script decides it's needed (no JS → no banner,
+  and no pixel either). Non-modal: it doesn't block the page or trap focus.
+-->
+<section class="cookie" role="region" aria-label={c.label} tabindex="-1" hidden data-cookie>
+  <p class="cookie__text">
+    {c.text}
+    <a class="link-u cookie__link" href={links.privacy.href}>{c.privacy}</a>
+  </p>
+  <div class="cookie__actions">
+    <button type="button" class="btn btn--dark btn--sm cookie__btn" data-consent="granted">{c.accept}</button>
+    <button type="button" class="btn btn--dark btn--sm cookie__btn" data-consent="denied">{c.decline}</button>
+  </div>
+</section>
+
+<script>
+  import { getConsent, setConsent, loadPixel, OPEN_EVENT, type Consent } from '../lib/consent';
+
+  const banner = document.querySelector<HTMLElement>('[data-cookie]')!;
+  let returnFocus: HTMLElement | null = null;
+
+  const consent = getConsent();
+  if (consent === 'granted') loadPixel();
+  if (!consent) banner.hidden = false;
+
+  banner.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((b) =>
+    b.addEventListener('click', () => {
+      setConsent(b.dataset.consent as Consent);
+      banner.hidden = true;
+      returnFocus?.focus();
+      returnFocus = null;
+    }),
+  );
+
+  // Footer "Cookie settings": show the banner again and move focus into it
+  addEventListener(OPEN_EVENT, () => {
+    returnFocus = document.activeElement as HTMLElement | null;
+    banner.hidden = false;
+    banner.focus();
+  });
+</script>
+
+<style>
+  .cookie {
+    position: fixed;
+    z-index: var(--z-menu);
+    inset-inline: var(--gutter);
+    bottom: var(--gutter);
+    margin-inline: auto;
+    max-width: 44rem;
+    display: grid;
+    gap: var(--s-4);
+    padding: var(--s-5);
+    background: var(--ivory);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: var(--radius-0);
+  }
+  .cookie[hidden] { display: none; }
+  .cookie:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+  .cookie__text { font-size: 0.95rem; line-height: 1.45; color: var(--ink-soft); }
+  .cookie__link { margin-left: 0.35em; font-size: inherit; padding-bottom: 0.1em; color: var(--ink); }
+
+  /* two identical buttons, same size and weight */
+  .cookie__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+  .cookie__btn { width: 100%; }
+  .cookie__btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  @media (min-width: 768px) {
+    .cookie { grid-template-columns: 1fr auto; align-items: center; column-gap: var(--s-6); }
+    .cookie__actions { grid-template-columns: repeat(2, 7.5rem); }
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { event, CONTACT_EMAIL } from '../content/site';
+import { event, CONTACT_EMAIL, cookieBanner } from '../content/site';
 // DRAFT — review with the organiser before launch.
 ---
 
@@ -9,15 +9,30 @@ import { event, CONTACT_EMAIL } from '../content/site';
     <a class="link-u" href="/">← Back to Padel Social</a>
     <h1 class="h3">Privacy note</h1>
     <p>When you register for {event.name} {event.edition}, {event.brand} collects the details you enter in the form (name, phone number, whether we should contact you on Telegram or WhatsApp, participation and playing level).</p>
-    <p>We use them only to manage your registration and contact you about this event. We don’t sell them or use them for advertising. This site uses no analytics, tracking scripts or cookies.</p>
+    <p>We use them only to manage your registration and contact you about this event. We don’t sell them, and we never send your name or phone number to advertising platforms.</p>
+
+    <!-- DRAFT — review: Meta Pixel section -->
+    <h2 class="caps privacy__h">Cookies and the Meta Pixel</h2>
+    <p>If you click “Accept” in the cookie banner, this site loads the Meta Pixel, provided by Meta Platforms Ireland Ltd. We use it to measure our ads and to show our ads again to people who visited the site (retargeting). If you click “Decline” or make no choice, the Meta Pixel is not loaded and nothing is sent to Meta.</p>
+    <p>With your consent, Meta receives: the pages you view on this site; a “registration completed” event with the ticket type’s price (not your name, phone number or other form details); and cookies and technical data about your browser and device (such as IP address and browser type). Meta processes this data under its own privacy policy: <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Meta Privacy Policy</a>.</p>
+    <p>You can change or withdraw your consent at any time with the “{cookieBanner.settings}” link in the footer of the site, or here: <button type="button" class="link-u privacy__cookie" data-cookie-settings>{cookieBanner.settings}</button>. Withdrawing consent stops the pixel from loading on your next visits; cookies already set by Meta can be removed in your browser settings.</p>
+    <p>Your cookie choice itself is stored only in your browser (local storage) so we don’t ask you again.</p>
+
     <p>Your details are stored with our database provider (Supabase) and may be sent to our email notification service (Formspree). We keep them until the event is over and follow-up is done, then delete them.</p>
     <p>The data controller is {event.brand}. Contact: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
     <p>You can ask us to see, correct or delete your data at any time. To have your data deleted, email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> from the address you registered with.</p>
   </article>
 </Base>
 
+<script>
+  import { openCookieSettings } from '../lib/consent';
+  document.querySelector('[data-cookie-settings]')?.addEventListener('click', openCookieSettings);
+</script>
+
 <style>
   .privacy { max-width: 44rem; padding-block: 5rem; display: grid; gap: 1.25rem; }
   .privacy h1 { margin-block: 1.5rem 0.5rem; }
-  .privacy .link-u { justify-self: start; }
+  .privacy > .link-u { justify-self: start; }
+  .privacy__h { margin-top: 1rem; font-size: 1rem; letter-spacing: 0.16em; }
+  .privacy__cookie { background-color: transparent; border: 0; padding: 0 0 0.3em; color: inherit; font: inherit; cursor: pointer; }
 </style>

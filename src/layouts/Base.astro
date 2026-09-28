@@ -5,6 +5,7 @@ import '@fontsource-variable/inter';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import { event, seo, prices, links } from '../content/site';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -85,5 +86,6 @@ const jsonLd = {
       <slot />
     </main>
     <slot name="footer" />
+    <CookieBanner />
   </body>
 </html>
