@@ -310,16 +310,6 @@ export const finalCta = {
   cta: 'Join the event',
 };
 
-/* ---- Cookie consent banner (Meta Pixel loads only after Accept) --------- */
-export const cookieBanner = {
-  label: 'Cookie consent',
-  text: 'We use cookies to measure our ads and improve the site. You can accept or decline.',
-  privacy: 'Privacy note',
-  accept: 'Accept',
-  decline: 'Decline',
-  settings: 'Cookie settings',
-};
-
 /* ---- 11 Footer ---------------------------------------------------------- */
 export const footer = {
   wordmark: 'Play Padel Club',

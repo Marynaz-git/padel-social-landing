@@ -159,7 +159,7 @@ const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
 <script>
   import { validate, submitRegistration, contactLabel, type RegistrationData, type FieldKey, type Participation } from '../lib/registration';
   import { registration as r } from '../content/site';
-  import { trackLead } from '../lib/consent';
+  import { trackLead } from '../lib/pixel';
   import type { FppLevel, ContactVia } from '../content/site';
 
   const form = document.querySelector<HTMLFormElement>('[data-reg-form]');
@@ -284,7 +284,7 @@ const defaultCountry = COUNTRY_BY_ISO[DEFAULT_ISO];
       const result = await submitRegistration(data);
       setSubmitting(false);
 
-      // Meta Pixel Lead: new successful registrations only, and only with consent (checked inside)
+      // Meta Pixel Lead: new successful registrations only
       if (result.status === 'success') trackLead(data.participation);
       if (result.status === 'success' || result.status === 'duplicate') {
         const panel = reg.querySelector<HTMLElement>(`[data-result="${result.status}"]`)!;
